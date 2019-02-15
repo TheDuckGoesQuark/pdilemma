@@ -1,10 +1,9 @@
 package dist.sys.pdilemma.controllers;
 
-import dist.sys.pdilemma.services.ProsecuterService;
+import dist.sys.pdilemma.services.ProsecutorService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -22,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ProsecutorControllerTest {
 
     @MockBean
-    private ProsecuterService prosecuterService;
+    private ProsecutorService prosecutorService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -30,7 +29,7 @@ public class ProsecutorControllerTest {
     @Test
     public void testConnection() throws Exception {
 
-        when(prosecuterService.testConnection()).thenReturn("Hello from Server");
+        when(prosecutorService.testConnection()).thenReturn("Hello from Server");
 
         MvcResult result = mockMvc.perform(get("/prosecutor/test")
         .contentType(MediaType.TEXT_PLAIN))
