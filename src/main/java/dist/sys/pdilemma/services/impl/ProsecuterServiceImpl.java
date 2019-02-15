@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 public class ProsecuterServiceImpl implements ProsecuterService {
     @Override
     public String testConnection() {
-        return "Hello from server";
+        return "Hello from Server";
     }
 }
