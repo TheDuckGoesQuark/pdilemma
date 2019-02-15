@@ -9,6 +9,5 @@ public class PdilemmaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PdilemmaApplication.class, args);
 	}
-
 }
 
