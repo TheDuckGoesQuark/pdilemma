@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.1.29)  15 FEB 2019 16:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.1.29)  16 FEB 2019 16:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -655,36 +655,21 @@ Package pdftex.def Info: images/standrewslogo.png  used on input line 83.
 [1
 
 {/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map} <./images/st
-andrewslogo.png>]
-
-LaTeX Warning: Reference `springinit' on page 1 undefined on input line 97.
-
-
-LaTeX Warning: Reference `createreactapp' on page 1 undefined on input line 101
-.
-
-(./report.bbl
-
-Package natbib Warning: Empty `thebibliography' environment on input line 3.
-
-) [1] (./report.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+andrewslogo.png>] (./report.bbl) [1] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 16508 strings out of 492671
- 311096 string characters out of 6133225
- 376875 words of memory out of 5000000
- 20084 multiletter control sequences out of 15000+600000
- 7306 words of font info for 26 fonts, out of 8000000 for 9000
+ 16515 strings out of 492671
+ 311219 string characters out of 6133225
+ 376905 words of memory out of 5000000
+ 20091 multiletter control sequences out of 15000+600000
+ 6999 words of font info for 25 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
- 62i,5n,96p,494b,267s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on report.pdf (2 pages, 93085 bytes).
+ 62i,5n,96p,492b,267s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmti12.pfb>
+Output written on report.pdf (2 pages, 93668 bytes).
 PDF statistics:
  33 PDF objects out of 1000 (max. 8388607)
  22 compressed objects within 1 object stream
