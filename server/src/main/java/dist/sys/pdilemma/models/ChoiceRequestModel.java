@@ -2,19 +2,16 @@ package dist.sys.pdilemma.models;
 
 public class ChoiceRequestModel {
 
-    public static final String COOPERATE = "C";
-    public static final String BETRAY = "B";
-
-    private String choice;
+    private Choice choice;
 
     public ChoiceRequestModel() {
     }
 
-    public String getChoice() {
+    public Choice getChoice() {
         return choice;
     }
 
-    public void setChoice(String choice) {
+    public void setChoice(Choice choice) {
         this.choice = choice;
     }
 }

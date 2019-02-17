@@ -58,6 +58,5 @@ public class ProsecutorControllerTest {
                 .andReturn();
 
         assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
-
     }
 }
