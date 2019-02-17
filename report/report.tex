@@ -31,6 +31,7 @@
 \usepackage{subfig}
 \usepackage{graphicx}
 \usepackage{grffile}
+\usepackage{mwe}
 
 \titleformat{\section}{\normalfont\Large\bfseries}{Experiment \thesection}{1em}{}
 
@@ -98,7 +99,23 @@ The application was set up using Spring Initializr \cite{springinit}, which prov
 
 \part{Prosecutor Service 1 - Single Client Game}
 
-To provide a more user-friendly client, create-react-app \cite{createreactapp} was used to boostrap a react.js application. By using a proxy setting, CORS issues were avoided while developing locally. 
+To provide a more user-friendly client, create-react-app \cite{createreactapp} was used to boostrap a react.js application. By using a proxy setting, CORS issues were avoided while developing locally. A simple test button was supplied that would perform an asynchronous call to the API test endpoint, and then print the response to the screen (Figures \ref{fig:beforepress} and \ref{fig:afterpress}).
+
+\begin{figure}[!ht]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/part1pretest} % first figure itself
+        \caption{Before Press}
+        \label{fig:beforepress}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/part1posttest} % second figure itself
+        \caption{After Press}
+        \label{fig:afterpress}
+    \end{minipage}
+\end{figure}
 
 \part*{Conclusion}
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.1.29)  16 FEB 2019 16:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.1.29)  17 FEB 2019 19:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -585,36 +585,68 @@ Package grffile Info: Option `extendedchars' is set to `false'.
 Package grffile Info: Option `space' is set to `true'.
 Package grffile Info: \Gin@ii of package `graphicx' fixed on input line 494.
 )
-(./report.aux)
+(/usr/share/texlive/texmf-dist/tex/latex/mwe/mwe.sty
+Package: mwe 2018/03/30 v0.5 Package to support minimal working examples (MWE)
+
+(/usr/share/texlive/texmf-dist/tex/latex/lipsum/lipsum.sty
+Package: lipsum 2014/07/27 v1.3 150 paragraphs of Lorem Ipsum dummy text
+\c@lips@count=\count144
+)
+(/usr/share/texlive/texmf-dist/tex/latex/blindtext/blindtext.sty
+Package: blindtext 2012/01/06 V2.0 blindtext-Package
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+\c@blindtext=\count145
+\c@Blindtext=\count146
+\c@blind@countparstart=\count147
+\blind@countxx=\count148
+\blindtext@numBlindtext=\count149
+\blind@countyy=\count150
+\c@blindlist=\count151
+\c@blindlistlevel=\count152
+\c@blindlist@level=\count153
+\blind@listitem=\count154
+\c@blind@listcount=\count155
+\c@blind@levelcount=\count156
+\blind@mathformula=\count157
+\blind@Mathformula=\count158
+\c@blind@randomcount=\count159
+\c@blind@randommax=\count160
+\c@blind@pangramcount=\count161
+\c@blind@pangrammax=\count162
+)) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
- (/usr/share/texlive/texmf-dist/tex/latex/ucs/ucsencs.def
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+
+(/usr/share/texlive/texmf-dist/tex/latex/ucs/ucsencs.def
 File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
 )
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count144
+\scratchcounter=\count163
 \scratchdimen=\dimen180
 \scratchbox=\box42
-\nofMPsegments=\count145
-\nofMParguments=\count146
+\nofMPsegments=\count164
+\nofMParguments=\count165
 \everyMPshowfont=\toks40
-\MPscratchCnt=\count147
+\MPscratchCnt=\count166
 \MPscratchDim=\dimen181
-\MPnumerator=\count148
-\makeMPintoPDFobject=\count149
+\MPnumerator=\count167
+\makeMPintoPDFobject=\count168
 \everyMPtoPDFconversion=\toks41
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -641,38 +673,49 @@ ABD: EveryShipout initializing macros
 Package todonotes Warning: The length marginparwidth is less than 2cm and will 
 most likely cause issues with the appearance of inserted todonotes. The issue c
 an be solved by adding a line like \setlength {\marginparwidth }{2cm} prior to 
-loading the todonotes package. on input line 41.
+loading the todonotes package. on input line 42.
 
-\c@lstlisting=\count150
+\c@lstlisting=\count169
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
 <images/standrewslogo.png, id=4, 185.19188pt x 225.84375pt>
 File: images/standrewslogo.png Graphic file (type png)
 <use images/standrewslogo.png>
-Package pdftex.def Info: images/standrewslogo.png  used on input line 83.
+Package pdftex.def Info: images/standrewslogo.png  used on input line 84.
 (pdftex.def)             Requested size: 88.2037pt x 107.56636pt.
 [1
 
 {/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map} <./images/st
-andrewslogo.png>] (./report.bbl) [1] (./report.aux) ) 
+andrewslogo.png>]
+<images/part1pretest.png, id=16, 366.36874pt x 160.6pt>
+File: images/part1pretest.png Graphic file (type png)
+<use images/part1pretest.png>
+Package pdftex.def Info: images/part1pretest.png  used on input line 108.
+(pdftex.def)             Requested size: 157.94785pt x 69.23798pt.
+<images/part1posttest.png, id=17, 372.39125pt x 191.71625pt>
+File: images/part1posttest.png Graphic file (type png)
+<use images/part1posttest.png>
+Package pdftex.def Info: images/part1posttest.png  used on input line 114.
+(pdftex.def)             Requested size: 157.94785pt x 81.31596pt.
+ (./report.bbl [1]) [2 <./images/part1pretest.png> <./images/part1posttest.png>
+] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 16515 strings out of 492671
- 311219 string characters out of 6133225
- 376905 words of memory out of 5000000
- 20091 multiletter control sequences out of 15000+600000
- 6999 words of font info for 25 fonts, out of 8000000 for 9000
+ 16924 strings out of 492671
+ 317109 string characters out of 6133225
+ 490669 words of memory out of 5000000
+ 20476 multiletter control sequences out of 15000+600000
+ 10111 words of font info for 36 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
- 62i,5n,96p,492b,267s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmti12.pfb>
-Output written on report.pdf (2 pages, 93668 bytes).
+ 62i,8n,96p,492b,419s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc
+10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on report.pdf (3 pages, 107627 bytes).
 PDF statistics:
- 33 PDF objects out of 1000 (max. 8388607)
- 22 compressed objects within 1 object stream
+ 40 PDF objects out of 1000 (max. 8388607)
+ 24 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 28 words of extra memory for PDF output out of 10000 (max. 10000000)
 
