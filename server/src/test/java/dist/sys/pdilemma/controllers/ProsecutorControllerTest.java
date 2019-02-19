@@ -1,6 +1,5 @@
 package dist.sys.pdilemma.controllers;
 
-import dist.sys.pdilemma.models.ChoiceRequestModel;
 import dist.sys.pdilemma.models.ProsecutorResponseModel;
 import dist.sys.pdilemma.services.ProsecutorService;
 import org.junit.Test;
@@ -46,7 +45,7 @@ public class ProsecutorControllerTest {
     @Test
     public void chooseOption() throws Exception {
         final ProsecutorResponseModel response = new ProsecutorResponseModel(5);
-        when(prosecutorService.chooseOption(any())).thenReturn(response);
+        when(prosecutorService.setPrisonersChoice(gameId, prisonerId, any())).thenReturn(response);
 
         MvcResult result = mockMvc.perform(put("/prosecutor/games/1/prisoners/1")
                 .content("{\"choice\":\"C\"}")
