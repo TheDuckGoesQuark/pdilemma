@@ -22,7 +22,7 @@ public class ProsecutorController {
         return prosecutorService.testConnection();
     }
 
-    @PostMapping("/game")
+    @PutMapping("/games/1/prisoners/1")
     public ProsecutorResponseModel chooseOption(@RequestBody ChoiceRequestModel choice) {
         return prosecutorService.chooseOption(choice);
     }

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.1.29)  17 FEB 2019 19:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.1.29)  19 FEB 2019 18:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -691,28 +691,28 @@ andrewslogo.png>]
 <images/part1pretest.png, id=16, 366.36874pt x 160.6pt>
 File: images/part1pretest.png Graphic file (type png)
 <use images/part1pretest.png>
-Package pdftex.def Info: images/part1pretest.png  used on input line 108.
+Package pdftex.def Info: images/part1pretest.png  used on input line 106.
 (pdftex.def)             Requested size: 157.94785pt x 69.23798pt.
 <images/part1posttest.png, id=17, 372.39125pt x 191.71625pt>
 File: images/part1posttest.png Graphic file (type png)
 <use images/part1posttest.png>
-Package pdftex.def Info: images/part1posttest.png  used on input line 114.
+Package pdftex.def Info: images/part1posttest.png  used on input line 112.
 (pdftex.def)             Requested size: 157.94785pt x 81.31596pt.
- (./report.bbl [1]) [2 <./images/part1pretest.png> <./images/part1posttest.png>
+ [1 <./images/part1pretest.png> <./images/part1posttest.png>] (./report.bbl) [2
 ] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 16924 strings out of 492671
- 317109 string characters out of 6133225
+ 16925 strings out of 492671
+ 317124 string characters out of 6133225
  490669 words of memory out of 5000000
- 20476 multiletter control sequences out of 15000+600000
- 10111 words of font info for 36 fonts, out of 8000000 for 9000
+ 20477 multiletter control sequences out of 15000+600000
+ 10458 words of font info for 37 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
- 62i,8n,96p,492b,419s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,8n,96p,685b,419s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc
 10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on report.pdf (3 pages, 107627 bytes).
+Output written on report.pdf (3 pages, 111617 bytes).
 PDF statistics:
  40 PDF objects out of 1000 (max. 8388607)
  24 compressed objects within 1 object stream

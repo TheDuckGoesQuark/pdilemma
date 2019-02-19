@@ -16,8 +16,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,7 +48,7 @@ public class ProsecutorControllerTest {
         final ProsecutorResponseModel response = new ProsecutorResponseModel(5);
         when(prosecutorService.chooseOption(any())).thenReturn(response);
 
-        MvcResult result = mockMvc.perform(post("/prosecutor/game")
+        MvcResult result = mockMvc.perform(put("/prosecutor/games/1/prisoners/1")
                 .content("{\"choice\":\"C\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
