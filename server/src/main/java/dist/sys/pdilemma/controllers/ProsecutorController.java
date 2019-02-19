@@ -41,31 +41,31 @@ public class ProsecutorController {
 
     @GetMapping("/games/{gameId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public GameModel getGameById(@PathVariable("gameId") int gameId) {
+    public GameModel getGameById(@PathVariable("gameId") int gameId) throws NotFoundException {
         return prosecutorService.getGameById(gameId);
     }
 
     @DeleteMapping("/games/{gameId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteGameById(@PathVariable("gameId") int gameId) {
+    public void deleteGameById(@PathVariable("gameId") int gameId) throws NotFoundException {
         prosecutorService.deleteGameById(gameId);
     }
 
     @GetMapping("/games/{gameId}/prisoners")
     @ResponseStatus(HttpStatus.OK)
-    public Set<PrisonerModel> getAllPrisonersFromGame(@PathVariable("gameId") int gameId) {
+    public Set<PrisonerModel> getAllPrisonersFromGame(@PathVariable("gameId") int gameId) throws NotFoundException {
         return prosecutorService.getAllPrisonersFromGame(gameId);
     }
 
     @PostMapping("/games/{gameId}/prisoners")
     @ResponseStatus(HttpStatus.CREATED)
-    public PrisonerModel addPrisonerToGame(@PathVariable("gameId") int gameId) {
+    public PrisonerModel addPrisonerToGame(@PathVariable("gameId") int gameId) throws NotFoundException {
         return prosecutorService.addPrisonerToGame(gameId);
     }
 
     @GetMapping("/games/{gameId}/prisoners/{prisonerId}")
     @ResponseStatus(HttpStatus.OK)
-    public PrisonerModel getPrisonerById(@PathVariable("gameId") int gameId, @PathVariable("prisonerId") int prisonerId) {
+    public PrisonerModel getPrisonerById(@PathVariable("gameId") int gameId, @PathVariable("prisonerId") int prisonerId) throws NotFoundException {
         return prosecutorService.getPrisonerById(gameId, prisonerId);
     }
 

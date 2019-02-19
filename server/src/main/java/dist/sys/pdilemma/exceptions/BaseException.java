@@ -2,7 +2,7 @@ package dist.sys.pdilemma.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public abstract class BaseException extends Throwable {
+public abstract class BaseException extends RuntimeException {
 
     private HttpStatus status;
     private String message;
