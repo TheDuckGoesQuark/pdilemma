@@ -4,6 +4,7 @@ import dist.sys.pdilemma.exceptions.NotFoundException;
 import dist.sys.pdilemma.models.ChoiceRequestModel;
 import dist.sys.pdilemma.models.GameModel;
 import dist.sys.pdilemma.models.PrisonerModel;
+import dist.sys.pdilemma.models.ProsecutorResponseModel;
 import dist.sys.pdilemma.services.ProsecutorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ public class ProsecutorController {
     }
 
     @GetMapping("/games/{gameId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public GameModel getGameById(@PathVariable("gameId") int gameId) throws NotFoundException {
         return prosecutorService.getGameById(gameId);
     }
@@ -81,5 +82,12 @@ public class ProsecutorController {
                                             @PathVariable("prisonerId") int prisonerId,
                                             @Valid @NotNull @RequestBody ChoiceRequestModel choice) throws NotFoundException {
         return prosecutorService.setPrisonersChoice(gameId, prisonerId, choice);
+    }
+
+    @GetMapping("/games/{gameId}/prisoners/{prisonerId}/num_years_reduction")
+    @ResponseStatus(HttpStatus.OK)
+    public ProsecutorResponseModel getNumYearsReduction(@PathVariable("gameId") int gameId,
+                                                        @PathVariable("prisonerId") int prisonerId) {
+        return prosecutorService.getYearsReduction(gameId, prisonerId);
     }
 }

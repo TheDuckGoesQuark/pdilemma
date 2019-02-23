@@ -3,14 +3,14 @@ package dist.sys.pdilemma.models;
 public class PrisonerModel {
 
     private int prisonerId;
-    private Choice prisonerChoice;
+    private Choice choice;
 
     public PrisonerModel() {
     }
 
-    public PrisonerModel(int prisonerId, Choice prisonerChoice) {
+    public PrisonerModel(int prisonerId, Choice choice) {
         this.prisonerId = prisonerId;
-        this.prisonerChoice = prisonerChoice;
+        this.choice = choice;
     }
 
     public int getPrisonerId() {
@@ -21,12 +21,12 @@ public class PrisonerModel {
         this.prisonerId = prisonerId;
     }
 
-    public Choice getPrisonerChoice() {
-        return prisonerChoice;
+    public Choice getChoice() {
+        return choice;
     }
 
-    public void setPrisonerChoice(Choice prisonerChoice) {
-        this.prisonerChoice = prisonerChoice;
+    public void setChoice(Choice choice) {
+        this.choice = choice;
     }
 
 }

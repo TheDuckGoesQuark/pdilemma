@@ -13,13 +13,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.validation.Constraint;
-import javax.validation.ConstraintViolationException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
@@ -177,7 +174,7 @@ public class ProsecutorServiceImplTest {
 
         PrisonerModel response = prosecutorService.addPrisonerToGame(1);
         assertEquals(2, response.getPrisonerId());
-        assertNull(response.getPrisonerChoice());
+        assertNull(response.getChoice());
     }
 
     @Test
@@ -198,7 +195,7 @@ public class ProsecutorServiceImplTest {
 
         PrisonerModel response = prosecutorService.addPrisonerToGame(1);
         assertEquals(1, response.getPrisonerId());
-        assertNull(response.getPrisonerChoice());
+        assertNull(response.getChoice());
     }
 
     @Test(expected = NotFoundException.class)
@@ -239,7 +236,7 @@ public class ProsecutorServiceImplTest {
 
         PrisonerModel prisoner = prosecutorService.getPrisonerById(1, 1);
         assertEquals(1, prisoner.getPrisonerId());
-        assertNull(prisoner.getPrisonerChoice());
+        assertNull(prisoner.getChoice());
     }
 
     @Test(expected = NotFoundException.class)
@@ -280,7 +277,7 @@ public class ProsecutorServiceImplTest {
         PrisonerModel responsePrisonersOne = response.iterator().next();
 
         assertEquals(1, responsePrisonersOne.getPrisonerId());
-        assertNull(responsePrisonersOne.getPrisonerChoice());
+        assertNull(responsePrisonersOne.getChoice());
     }
 
     @Test
@@ -351,7 +348,7 @@ public class ProsecutorServiceImplTest {
         choice.setChoice(COOPERATE);
         PrisonerModel response = prosecutorService.setPrisonersChoice(1, 1, choice);
 
-        assertEquals(COOPERATE, response.getPrisonerChoice());
+        assertEquals(COOPERATE, response.getChoice());
         assertEquals(1, response.getPrisonerId());
     }
 

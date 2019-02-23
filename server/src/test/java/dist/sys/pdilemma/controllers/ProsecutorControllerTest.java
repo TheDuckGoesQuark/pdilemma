@@ -1,6 +1,7 @@
 package dist.sys.pdilemma.controllers;
 
 import dist.sys.pdilemma.entities.Prisoner;
+import dist.sys.pdilemma.exceptions.BaseException;
 import dist.sys.pdilemma.exceptions.NotFoundException;
 import dist.sys.pdilemma.models.Choice;
 import dist.sys.pdilemma.models.GameModel;
@@ -22,9 +23,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static dist.sys.pdilemma.models.Choice.BETRAY;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,7 +72,7 @@ public class ProsecutorControllerTest {
     public void getAllGamesWhenOneGame() throws Exception {
         Set<PrisonerModel> prisoners = new HashSet<>();
         prisoners.add(new PrisonerModel(1, Choice.COOPERATE));
-        prisoners.add(new PrisonerModel(2, Choice.BETRAY));
+        prisoners.add(new PrisonerModel(2, BETRAY));
         GameModel gameModel = new GameModel(1, prisoners);
         when(prosecutorService.getAllGames()).thenReturn(Collections.singleton(gameModel));
 
@@ -107,16 +109,96 @@ public class ProsecutorControllerTest {
     }
 
     @Test
-    public void getGameByIdWhenNotFound() throws Exception {
-        when(prosecutorService.getAllGames()).thenThrow(new NotFoundException("Exception Text"));
+    public void startNewGame() throws Exception {
+        GameModel gameOne = new GameModel(1, new HashSet<>());
 
-        MvcResult result = mockMvc.perform(get("/prosecutor/games")
+        when(prosecutorService.startNewGame()).thenReturn(gameOne);
+
+        MvcResult result = mockMvc.perform(post("/prosecutor/games")
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(status().is(404))
-                .andExpect(jsonPath("$.message").value(2))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.gameId").value(1))
+                .andExpect(jsonPath("$.prisoners.length()").value(0))
                 .andReturn();
 
         assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
     }
 
+    @Test
+    public void getGameByIdWhenNotFound() throws Exception {
+        when(prosecutorService.getGameById(anyInt())).thenThrow(new NotFoundException("Exception Text"));
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games/1")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is(404))
+                .andExpect(jsonPath("$.message").value("Exception Text"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void getGameByIdWhenFound() throws Exception {
+        GameModel gameOne = new GameModel(1, new HashSet<>());
+        when(prosecutorService.getGameById(anyInt())).thenReturn(gameOne);
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games/1")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameId").value(1))
+                .andExpect(jsonPath("$.prisoners.length()").value(0))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void deleteGameByIdWhenNotFound() throws Exception {
+        doThrow(new NotFoundException("Not Found Text")).when(prosecutorService).deleteGameById(anyInt());
+
+        MvcResult result = mockMvc.perform(delete("/prosecutor/games/1")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is(404))
+                .andExpect(jsonPath("$.message").value("Not Found Text"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void deleteGameByIdWhenFound() throws Exception {
+        doNothing().when(prosecutorService).deleteGameById(anyInt());
+
+        mockMvc.perform(delete("/prosecutor/games/1")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void getAllPrisonersFromGameWhenNotFound() throws Exception {
+        doThrow(new NotFoundException("Not Found Text"))
+                .when(prosecutorService).getAllPrisonersFromGame(anyInt());
+
+        mockMvc.perform(get("/prosecutor/games/1/prisoners")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void getAllPrisonersFromGameWhenOnePrisoner() throws Exception {
+        Set<PrisonerModel>  prisonerModels = new HashSet<>();
+        prisonerModels.add(new PrisonerModel(1, BETRAY));
+
+        when(prosecutorService.getAllPrisonersFromGame(anyInt())).thenReturn(prisonerModels);
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games/1/prisoners")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$.[0].prisonerId").value(1))
+                .andExpect(jsonPath("$.[0].choice").value("B"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
 }
