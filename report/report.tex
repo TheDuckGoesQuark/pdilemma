@@ -121,7 +121,6 @@ First, the Persecutor service in the Spring Boot application was extended to inc
 
 Since only one game would exist at this stage, the endpoint \emph{/prosecutor/games/1/prisoners/1} was chosen to be where the prisoner would send their choice in the JSON format. By PUTing their choice to this endpoint, the user could expect a return value of the number of years reduction. The \emph{games} part of the URL would allow a user to access all currently ongoing games
 
-
 Spring boot provided the (de)serialization between JSON and the Java object representation through the Jackson library. 
 
 \part*{Conclusion}
