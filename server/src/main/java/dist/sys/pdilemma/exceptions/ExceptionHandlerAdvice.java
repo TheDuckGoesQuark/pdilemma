@@ -20,7 +20,7 @@ import java.util.List;
 public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = BaseException.class)
-    protected ResponseEntity<ErrorMessageModel> handleNotFound(RuntimeException ex, WebRequest request) {
+    protected ResponseEntity<ErrorMessageModel> handleBaseException(RuntimeException ex, WebRequest request) {
         BaseException baseException = (BaseException) ex;
         return new ResponseEntity<>(new ErrorMessageModel(baseException.getMessage()), baseException.getStatus());
     }

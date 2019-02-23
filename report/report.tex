@@ -119,9 +119,29 @@ To provide a user-friendly client, create-react-app \cite{createreactapp} was us
 
 First, the Persecutor service in the Spring Boot application was extended to include the \emph{chooseOption} method, which would take the choice of prisoner one and return the number of years reduction based on a random choice from prisoner two. To reliably test all outcomes produced the desired result when using a random choice generator, the random choice was provided through a separate service which could then be mocked in tests. 
 
-Since only one game would exist at this stage, the endpoint \emph{/prosecutor/games/1/prisoners/1} was chosen to be where the prisoner would send their choice in the JSON format. By PUTing their choice to this endpoint, the user could expect a return value of the number of years reduction. The \emph{games} part of the URL would allow a user to access all currently ongoing games
-
+Since only one game would exist at this stage, the endpoint \url{/prosecutor/games/1/prisoners/1} was chosen to be where the prisoner would send their choice in the JSON format. By PUTing their choice to this endpoint, the user could expect a return value of the number of years reduction. 
+ 		
 Spring boot provided the (de)serialization between JSON and the Java object representation through the Jackson library. 
+
+\part{Multiple Client Game - Server}
+
+As an extension, the system was made to handle multiple games. This was first done by extending the persecutor service API.
+
+Given REST design relies on URLs mapping directly to resources, the first step was to design the URL structure in a way that would work for multiple games with multiple prisoners. A hierarchial structure was chosen, where games could be accessed by their ID, prisoners could be accessed by their ID and the game ID they belong to, and so on. Consistency in behaviour was essential, and so a HTTP GET to \url{/prosecutor/games} would return all games and all their prisoners, then \url{/prosecutor/games/1} would return game 1 and all its prisoners, \url{/prosecutor/games/1/prisoners} would only return the list of prisoners from game 1, and \url{/prosecutors/games/1/prisoners/1} would only return prisoner 1 from game 1. The full set of URLs can be found at \url{/swagger-ui.html} when the application is running, along with documentation which describes the JSON output structure and all the supported operations for each URL.
+
+In order to make the API friendlier to use, error messages were standardised such that any exception thrown by the service would provide a HTTP status code and a message for the user, which would then be sent in the response as JSON. This behaviour was tested for using \emph{mockMvc} in \emph{ProsecutorConrollerTest}. Validation was used for any method that took client input.
+
+Though a production ready implementation would use a seperate database server, for this practical a simple H2 in-memory database was used. The repository abstraction provided by Spring Data would mean that with some simple configuration, an external database could be used instead. 
+
+The ProsecutorService was extended to provide all the functonality needed for each controller method, such as getting all games, getting a prisoner from a game, creating a new game, and so on. Unit tests were written for each method by mocking the repositories used. Since only simple operations were used (save, findById, findAll), there was no need for unit testing the repository layer also. 
+
+The games kept the same structure, where there would be two prisoners per game. Since REST prohibits the use of any kind of session, the client would have to use a polling mechanism to get their years reduction once providing their choice. Message based middleware avoids this issue. For example, a commonly used publish-subscribe messaging protocol middleware provided by Spring Websockets, called STOMP, would allow the client to subscribe to their prisoners status, and allow the server to push the number of years reduction to the client once they became available. REST on the other hand avoids all the overhead involved in maintaining subscriptions and message brokers. The structure of REST APIs also tends to encourage decoupling from any client application, which is useful if the service is ever to be expanded or used differently.
+
+Since the prisoner ID is unique for all prisoners across all games, it would be possible to establish a many-to-many relationship between games and prisoners. Since the heirarchial structure was easier to capture in a REST url design, this functionality was not provided. If it was to be used, a HATEOAS architecture would likely be preferred, where \url{/prisoners} would return a prisoner object with the URLs of all games they partake in, and \url{/games} would return a game object with the URLs of all the prisoners taking part in them. This would avoid cycles in the JSON response objects, and provides what is sometimes referred to as the "final level" of REST.
+
+\part{Multiple Client Game - Client}
+
+With the backend API tested and running, the client would now be able to start and join games. Since games used unique identifiers, players could start a game and share their game ID, to allow other players to join. This could be useful in an expiriment, as it could be used to track which participants took part in which games if they are supplied their game and prisoner IDs before hand. # TODO
 
 \part*{Conclusion}
 
