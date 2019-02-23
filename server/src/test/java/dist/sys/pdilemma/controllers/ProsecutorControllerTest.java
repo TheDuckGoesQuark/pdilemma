@@ -2,6 +2,7 @@ package dist.sys.pdilemma.controllers;
 
 import dist.sys.pdilemma.entities.Prisoner;
 import dist.sys.pdilemma.exceptions.BaseException;
+import dist.sys.pdilemma.exceptions.ConflictException;
 import dist.sys.pdilemma.exceptions.NotFoundException;
 import dist.sys.pdilemma.models.Choice;
 import dist.sys.pdilemma.models.GameModel;
@@ -24,6 +25,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static dist.sys.pdilemma.models.Choice.BETRAY;
+import static dist.sys.pdilemma.models.Choice.COOPERATE;
+import static java.lang.Enum.valueOf;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -197,6 +200,63 @@ public class ProsecutorControllerTest {
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$.[0].prisonerId").value(1))
                 .andExpect(jsonPath("$.[0].choice").value("B"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void getAllPrisonersFromGameWhenTwoPrisoners() throws Exception {
+        Set<PrisonerModel>  prisonerModels = new HashSet<>();
+        prisonerModels.add(new PrisonerModel(1, BETRAY));
+        prisonerModels.add(new PrisonerModel(2, COOPERATE));
+
+        when(prosecutorService.getAllPrisonersFromGame(anyInt())).thenReturn(prisonerModels);
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games/1/prisoners")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void addPrisonerToGameWhenGameNotFound() throws Exception {
+        doThrow(new NotFoundException("Not Found Text")).when(prosecutorService).addPrisonerToGame(anyInt());
+
+        MvcResult result = mockMvc.perform(post("/prosecutor/games/1/prisoners")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is(404))
+                .andExpect(jsonPath("$.message").value("Not Found Text"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void addPrisonerToGameWhenGameFound() throws Exception {
+        when(prosecutorService.addPrisonerToGame(anyInt())).thenReturn(new PrisonerModel(1, null));
+
+        MvcResult result = mockMvc.perform(post("/prosecutor/games/1/prisoners")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.prisonerId").value(1))
+                .andExpect(jsonPath("$.choice").isEmpty())
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void addPrisonerToGameWhenTooManyPrisoners() throws Exception {
+        doThrow(new ConflictException("Conflict Text")).when(prosecutorService).addPrisonerToGame(anyInt());
+
+        MvcResult result = mockMvc.perform(post("/prosecutor/games/1/prisoners")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("Conflict Text"))
                 .andReturn();
 
         assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
