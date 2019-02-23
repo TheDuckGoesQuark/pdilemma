@@ -1,9 +1,12 @@
 export async function testConnection() {
-    const response = await fetch('/prosecutor/test');
-    const body = await response.text();
+    try {
+        const response = await fetch('/prosecutor/test');
+        const body = await response.text();
 
-    if (response.ok) return body;
-    else return "Failed to Connect."
+        if (response.ok) return body;
+    } catch (ignored) {}
+
+    return Promise.reject("Failed to Connect.")
 }
 
 export async function makeChoice(choice) {

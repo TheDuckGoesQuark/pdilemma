@@ -52,7 +52,9 @@ class TestButton extends Component {
             .then(text => {
                 this.props.updateResponseText(text);
                 this.props.updateView();
-            })
+            }).catch(reason => {
+                this.props.updateResponseText(reason);
+        });
     }
 
     render() {

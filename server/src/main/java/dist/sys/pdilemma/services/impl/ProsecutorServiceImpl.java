@@ -47,16 +47,6 @@ public class ProsecutorServiceImpl implements ProsecutorService {
     }
 
     @Override
-    @Transactional
-    public PrisonerModel setPrisonersChoice(int gameId, int prisonerId, ChoiceRequestModel choiceRequest) throws NotFoundException {
-        final Prisoner prisoner = getPrisonerFromGame(getGame(gameId), prisonerId);
-
-        prisoner.setChoice(choiceRequest.getChoice());
-
-        return prisoner.toModel();
-    }
-
-    @Override
     public GameModel startNewGame() {
         final Game game = gameRepository.save(new Game());
         return game.toModel();
@@ -94,6 +84,16 @@ public class ProsecutorServiceImpl implements ProsecutorService {
     @Override
     public Set<PrisonerModel> getAllPrisonersFromGame(int gameId) throws NotFoundException {
         return getGame(gameId).getPrisoners().stream().map(Prisoner::toModel).collect(Collectors.toSet());
+    }
+
+    @Override
+    @Transactional
+    public PrisonerModel setPrisonersChoice(int gameId, int prisonerId, ChoiceRequestModel choiceRequest) throws NotFoundException {
+        final Prisoner prisoner = getPrisonerFromGame(getGame(gameId), prisonerId);
+
+        prisoner.setChoice(choiceRequest.getChoice());
+
+        return prisoner.toModel();
     }
 
     @Override
