@@ -77,14 +77,14 @@ public class ProsecutorController {
     }
 
     @PutMapping("/games/{gameId}/prisoners/{prisonerId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public PrisonerModel setPrisonersChoice(@PathVariable("gameId") int gameId,
                                             @PathVariable("prisonerId") int prisonerId,
                                             @Valid @NotNull @RequestBody ChoiceRequestModel choice) throws NotFoundException {
         return prosecutorService.setPrisonersChoice(gameId, prisonerId, choice);
     }
 
-    @GetMapping("/games/{gameId}/prisoners/{prisonerId}/num_years_reduction")
+    @GetMapping("/games/{gameId}/prisoners/{prisonerId}/numYearsReduction")
     @ResponseStatus(HttpStatus.OK)
     public ProsecutorResponseModel getNumYearsReduction(@PathVariable("gameId") int gameId,
                                                         @PathVariable("prisonerId") int prisonerId) {

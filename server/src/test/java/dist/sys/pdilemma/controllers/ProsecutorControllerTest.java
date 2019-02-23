@@ -4,6 +4,7 @@ import dist.sys.pdilemma.entities.Prisoner;
 import dist.sys.pdilemma.exceptions.BaseException;
 import dist.sys.pdilemma.exceptions.ConflictException;
 import dist.sys.pdilemma.exceptions.NotFoundException;
+import dist.sys.pdilemma.exceptions.PreconditionFailedException;
 import dist.sys.pdilemma.models.Choice;
 import dist.sys.pdilemma.models.GameModel;
 import dist.sys.pdilemma.models.PrisonerModel;
@@ -326,8 +327,27 @@ public class ProsecutorControllerTest {
 
     @Test
     public void setPrisonersChoiceWhenNullBody() throws Exception {
+        mockMvc.perform(put("/prosecutor/games/1/prisoners/1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void setPrisonersChoiceWhenChoiceMissing() throws Exception {
+         mockMvc.perform(put("/prosecutor/games/1/prisoners/1")
+                .content("{}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void setPrisonersChoiceWhenChoiceNull() throws Exception {
         MvcResult result = mockMvc.perform(put("/prosecutor/games/1/prisoners/1")
-                .content("")
+                .content("{\"choice\": null}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
@@ -346,9 +366,51 @@ public class ProsecutorControllerTest {
                 .content("{\"choice\":\"B\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.prisonerId").value(1))
                 .andExpect(jsonPath("$.choice").value("B"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void getNumYearsReduction() throws Exception {
+        ProsecutorResponseModel response = new ProsecutorResponseModel(5);
+        when(prosecutorService.getYearsReduction(anyInt(), anyInt())).thenReturn(response);
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games/1/prisoners/1/numYearsReduction")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.numYearsReduction").value(5))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void getNumYearsReductionWhenNotFound() throws Exception {
+        when(prosecutorService.getYearsReduction(anyInt(), anyInt()))
+                .thenThrow(new NotFoundException("Exception Text"));
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games/1/prisoners/1/numYearsReduction")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Exception Text"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void getNumYearsReductionWhenPreconditionFailed() throws Exception {
+        when(prosecutorService.getYearsReduction(anyInt(), anyInt()))
+                .thenThrow(new PreconditionFailedException("Exception Text"));
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games/1/prisoners/1/numYearsReduction")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isPreconditionFailed())
+                .andExpect(jsonPath("$.message").value("Exception Text"))
                 .andReturn();
 
         assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
