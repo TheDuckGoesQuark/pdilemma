@@ -4,10 +4,8 @@ import dist.sys.pdilemma.entities.Game;
 import dist.sys.pdilemma.entities.Prisoner;
 import dist.sys.pdilemma.exceptions.ConflictException;
 import dist.sys.pdilemma.exceptions.NotFoundException;
-import dist.sys.pdilemma.models.Choice;
-import dist.sys.pdilemma.models.ChoiceRequestModel;
-import dist.sys.pdilemma.models.GameModel;
-import dist.sys.pdilemma.models.PrisonerModel;
+import dist.sys.pdilemma.exceptions.PreconditionFailedException;
+import dist.sys.pdilemma.models.*;
 import dist.sys.pdilemma.repositories.GameRepository;
 import dist.sys.pdilemma.repositories.PrisonerRepository;
 import dist.sys.pdilemma.services.ProsecutorService;
@@ -20,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.validation.Constraint;
+import javax.validation.ConstraintViolationException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
@@ -119,7 +119,7 @@ public class ProsecutorServiceImplTest {
         gameOne.setGameId(1);
         when(gameRepository.findById(anyInt())).thenReturn(Optional.of(gameOne));
 
-        GameModel response =  prosecutorService.getGameById(1);
+        GameModel response = prosecutorService.getGameById(1);
         assertEquals(1, response.getGameId());
         assertEquals(0, response.getPrisoners().size());
     }
@@ -392,5 +392,201 @@ public class ProsecutorServiceImplTest {
         doNothing().when(gameRepository).delete(any());
 
         prosecutorService.deleteGameById(1);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getYearsReductionWhenGameNotExist() {
+        when(gameRepository.findById(anyInt())).thenReturn(Optional.empty());
+        prosecutorService.getYearsReduction(1, 1);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getYearsReductionWhenPrisonerNotExistInGame() {
+        Game gameOne = new Game();
+        gameOne.setGameId(1);
+
+        Set<Prisoner> prisoners = new HashSet<>();
+
+        gameOne.setPrisoners(prisoners);
+
+        when(gameRepository.findById(anyInt())).thenReturn(Optional.of(gameOne));
+
+        prosecutorService.getYearsReduction(1, 1);
+    }
+
+    @Test(expected = PreconditionFailedException.class)
+    public void getYearsReductionWhenOnlyThisPrisonerInGame() {
+        Game gameOne = new Game();
+        gameOne.setGameId(1);
+
+        Prisoner prisonerOne = new Prisoner();
+        prisonerOne.setGame(gameOne);
+        prisonerOne.setPrisonerId(1);
+
+        Set<Prisoner> prisoners = new HashSet<>();
+        prisoners.add(prisonerOne);
+
+        gameOne.setPrisoners(prisoners);
+
+        when(gameRepository.findById(anyInt())).thenReturn(Optional.of(gameOne));
+
+        prosecutorService.getYearsReduction(1, 1);
+    }
+
+    @Test(expected = PreconditionFailedException.class)
+    public void getYearsReductionWhenThisPrisonerNotMadeDecision() {
+        Game gameOne = new Game();
+        gameOne.setGameId(1);
+
+        Prisoner prisonerOne = new Prisoner();
+        prisonerOne.setGame(gameOne);
+        prisonerOne.setPrisonerId(1);
+
+        Prisoner prisonerTwo = new Prisoner();
+        prisonerTwo.setGame(gameOne);
+        prisonerTwo.setPrisonerId(2);
+
+        Set<Prisoner> prisoners = new HashSet<>();
+        prisoners.add(prisonerOne);
+        prisoners.add(prisonerTwo);
+
+        gameOne.setPrisoners(prisoners);
+
+        when(gameRepository.findById(anyInt())).thenReturn(Optional.of(gameOne));
+
+        prosecutorService.getYearsReduction(1, 1);
+    }
+
+    @Test(expected = PreconditionFailedException.class)
+    public void getYearsReductionWhenOtherPrisonerNotMadeDecision() {
+        Game gameOne = new Game();
+        gameOne.setGameId(1);
+
+        Prisoner prisonerOne = new Prisoner();
+        prisonerOne.setGame(gameOne);
+        prisonerOne.setChoice(COOPERATE);
+        prisonerOne.setPrisonerId(1);
+
+        Prisoner prisonerTwo = new Prisoner();
+        prisonerTwo.setGame(gameOne);
+        prisonerTwo.setPrisonerId(2);
+
+        Set<Prisoner> prisoners = new HashSet<>();
+        prisoners.add(prisonerOne);
+        prisoners.add(prisonerTwo);
+
+        gameOne.setPrisoners(prisoners);
+
+        when(gameRepository.findById(anyInt())).thenReturn(Optional.of(gameOne));
+
+        prosecutorService.getYearsReduction(1, 1);
+    }
+
+    @Test
+    public void getYearsReductionWhenBothBetray() {
+        Game gameOne = new Game();
+        gameOne.setGameId(1);
+
+        Prisoner prisonerOne = new Prisoner();
+        prisonerOne.setGame(gameOne);
+        prisonerOne.setChoice(BETRAY);
+        prisonerOne.setPrisonerId(1);
+
+        Prisoner prisonerTwo = new Prisoner();
+        prisonerTwo.setGame(gameOne);
+        prisonerTwo.setChoice(BETRAY);
+        prisonerTwo.setPrisonerId(2);
+
+        Set<Prisoner> prisoners = new HashSet<>();
+        prisoners.add(prisonerOne);
+        prisoners.add(prisonerTwo);
+
+        gameOne.setPrisoners(prisoners);
+
+        when(gameRepository.findById(anyInt())).thenReturn(Optional.of(gameOne));
+
+        ProsecutorResponseModel response = prosecutorService.getYearsReduction(1, 1);
+        assertEquals(1, response.getNumYearsReduction());
+    }
+
+    @Test
+    public void getYearsReductionWhenBothCooperate() {
+        Game gameOne = new Game();
+        gameOne.setGameId(1);
+
+        Prisoner prisonerOne = new Prisoner();
+        prisonerOne.setGame(gameOne);
+        prisonerOne.setChoice(COOPERATE);
+        prisonerOne.setPrisonerId(1);
+
+        Prisoner prisonerTwo = new Prisoner();
+        prisonerTwo.setGame(gameOne);
+        prisonerTwo.setChoice(COOPERATE);
+        prisonerTwo.setPrisonerId(2);
+
+        Set<Prisoner> prisoners = new HashSet<>();
+        prisoners.add(prisonerOne);
+        prisoners.add(prisonerTwo);
+
+        gameOne.setPrisoners(prisoners);
+
+        when(gameRepository.findById(anyInt())).thenReturn(Optional.of(gameOne));
+
+        ProsecutorResponseModel response = prosecutorService.getYearsReduction(1, 1);
+        assertEquals(5, response.getNumYearsReduction());
+    }
+
+    @Test
+    public void getYearsReductionWhenThisBetrayThatCooperate() {
+        Game gameOne = new Game();
+        gameOne.setGameId(1);
+
+        Prisoner prisonerOne = new Prisoner();
+        prisonerOne.setGame(gameOne);
+        prisonerOne.setChoice(BETRAY);
+        prisonerOne.setPrisonerId(1);
+
+        Prisoner prisonerTwo = new Prisoner();
+        prisonerTwo.setGame(gameOne);
+        prisonerTwo.setChoice(COOPERATE);
+        prisonerTwo.setPrisonerId(2);
+
+        Set<Prisoner> prisoners = new HashSet<>();
+        prisoners.add(prisonerOne);
+        prisoners.add(prisonerTwo);
+
+        gameOne.setPrisoners(prisoners);
+
+        when(gameRepository.findById(anyInt())).thenReturn(Optional.of(gameOne));
+
+        ProsecutorResponseModel response = prosecutorService.getYearsReduction(1, 1);
+        assertEquals(3, response.getNumYearsReduction());
+    }
+
+    @Test
+    public void getYearsReductionWhenThisCooperateThatBetray() {
+        Game gameOne = new Game();
+        gameOne.setGameId(1);
+
+        Prisoner prisonerOne = new Prisoner();
+        prisonerOne.setGame(gameOne);
+        prisonerOne.setChoice(COOPERATE);
+        prisonerOne.setPrisonerId(1);
+
+        Prisoner prisonerTwo = new Prisoner();
+        prisonerTwo.setGame(gameOne);
+        prisonerTwo.setChoice(BETRAY);
+        prisonerTwo.setPrisonerId(2);
+
+        Set<Prisoner> prisoners = new HashSet<>();
+        prisoners.add(prisonerOne);
+        prisoners.add(prisonerTwo);
+
+        gameOne.setPrisoners(prisoners);
+
+        when(gameRepository.findById(anyInt())).thenReturn(Optional.of(gameOne));
+
+        ProsecutorResponseModel response = prosecutorService.getYearsReduction(1, 1);
+        assertEquals(2, response.getNumYearsReduction());
     }
 }

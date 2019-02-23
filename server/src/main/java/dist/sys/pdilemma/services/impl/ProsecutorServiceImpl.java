@@ -4,24 +4,21 @@ import dist.sys.pdilemma.entities.Game;
 import dist.sys.pdilemma.entities.Prisoner;
 import dist.sys.pdilemma.exceptions.ConflictException;
 import dist.sys.pdilemma.exceptions.NotFoundException;
+import dist.sys.pdilemma.exceptions.PreconditionFailedException;
 import dist.sys.pdilemma.models.*;
 import dist.sys.pdilemma.repositories.GameRepository;
 import dist.sys.pdilemma.repositories.PrisonerRepository;
 import dist.sys.pdilemma.services.ProsecutorService;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@Validated
 public class ProsecutorServiceImpl implements ProsecutorService {
 
     private final GameRepository gameRepository;
@@ -74,7 +71,7 @@ public class ProsecutorServiceImpl implements ProsecutorService {
     @Override
     @Transactional
     public PrisonerModel addPrisonerToGame(int gameId) throws NotFoundException {
-        final Game game = getGame(gameId) ;
+        final Game game = getGame(gameId);
 
         if (game.getPrisoners().size() == 2) throw new ConflictException("Game already has two prisoners.");
         else {
@@ -97,7 +94,7 @@ public class ProsecutorServiceImpl implements ProsecutorService {
 
     @Override
     @Transactional
-    public PrisonerModel setPrisonersChoice(int gameId, int prisonerId, @Valid @NotNull ChoiceRequestModel choiceRequest) throws NotFoundException {
+    public PrisonerModel setPrisonersChoice(int gameId, int prisonerId, ChoiceRequestModel choiceRequest) throws NotFoundException {
         final Prisoner prisoner = getPrisonerFromGame(getGame(gameId), prisonerId);
 
         if (prisoner.getChoice() != null) throw new ConflictException("Prisoner already made choice.");
@@ -112,5 +109,43 @@ public class ProsecutorServiceImpl implements ProsecutorService {
     public void deleteGameById(int gameId) throws NotFoundException {
         final Game game = getGame(gameId);
         gameRepository.delete(game);
+    }
+
+    @Override
+    public ProsecutorResponseModel getYearsReduction(int gameId, int prisonerId) {
+        final Game game = getGame(gameId);
+
+        final Prisoner thisPrisoner = getPrisonerFromGame(game, prisonerId);
+
+        final Prisoner thatPrisoner = game.getPrisoners().stream()
+                .filter(p -> !p.equals(thisPrisoner))
+                .findFirst()
+                .orElseThrow(() -> new PreconditionFailedException("Game only has one prisoner."));
+
+        if (thisPrisoner.getChoice() == null)
+            throw new PreconditionFailedException(String.format("Prisoner with Id %d hasn't made a choice yet.", prisonerId));
+        else if (thatPrisoner.getChoice() == null)
+            throw new PreconditionFailedException("Awaiting choice from the other Prisoner");
+
+        final Choice thisChoice = thisPrisoner.getChoice();
+        final Choice thatChoice = thatPrisoner.getChoice();
+
+        return getNumYearsFromChoices(thisChoice, thatChoice);
+    }
+
+    /**
+     * Takes two choices and outputs the number of years reduction for the prisoner that made this choice
+     * @param thisChoice the choice of the prisoner requesting number of years reduction
+     * @param thatChoice the choice of the other prisoner
+     * @return the number of years reduction for the prisoner that made this choice
+     */
+    private static ProsecutorResponseModel getNumYearsFromChoices(Choice thisChoice, Choice thatChoice) {
+        if (thisChoice == Choice.BETRAY) {
+            if (thatChoice == Choice.BETRAY) return new ProsecutorResponseModel(1);
+            else return new ProsecutorResponseModel(3);
+        } else {
+            if (thatChoice == Choice.BETRAY) return new ProsecutorResponseModel(2);
+            else return new ProsecutorResponseModel(5);
+        }
     }
 }

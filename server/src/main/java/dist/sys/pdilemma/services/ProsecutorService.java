@@ -4,9 +4,8 @@ import dist.sys.pdilemma.exceptions.NotFoundException;
 import dist.sys.pdilemma.models.ChoiceRequestModel;
 import dist.sys.pdilemma.models.GameModel;
 import dist.sys.pdilemma.models.PrisonerModel;
+import dist.sys.pdilemma.models.ProsecutorResponseModel;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 public interface ProsecutorService {
@@ -25,7 +24,7 @@ public interface ProsecutorService {
      * @param choice     choice made by prisoner
      * @return updated prisoner with new choice
      */
-    PrisonerModel setPrisonersChoice(int gameId, int prisonerId, @Valid @NotNull ChoiceRequestModel choice) throws NotFoundException;
+    PrisonerModel setPrisonersChoice(int gameId, int prisonerId, ChoiceRequestModel choice) throws NotFoundException;
 
     /**
      * Creates a new game and returns a description of that game
@@ -77,4 +76,13 @@ public interface ProsecutorService {
      * @param gameId id of game to delete
      */
     void deleteGameById(int gameId) throws NotFoundException;
+
+    /**
+     * Gets the number of years reduction resulting from a prisoners choice.
+     *
+     * @param gameId id of game prisoner belongs to
+     * @param prisonerId id of prisoner to get number of years reduction for
+     * @return number of years reduction for prisoner
+     */
+    ProsecutorResponseModel getYearsReduction(int gameId, int prisonerId);
 }
