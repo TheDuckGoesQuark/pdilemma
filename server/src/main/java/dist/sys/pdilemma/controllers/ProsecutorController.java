@@ -19,8 +19,12 @@ public class ProsecutorController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProsecutorController.class);
 
+    private final ProsecutorService prosecutorService;
+
     @Autowired
-    private ProsecutorService prosecutorService;
+    public ProsecutorController(ProsecutorService prosecutorService) {
+        this.prosecutorService = prosecutorService;
+    }
 
     @GetMapping("/test")
     public String testConnection() {

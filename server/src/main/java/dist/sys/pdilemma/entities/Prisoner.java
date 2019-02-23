@@ -18,10 +18,6 @@ public class Prisoner {
     private Choice choice;
 
     @ManyToOne
-    @JoinTable(name = "game_prisoners", joinColumns = {
-            @JoinColumn(name = "gameId", referencedColumnName = "gameId"),
-            @JoinColumn(name = "prisonerId", referencedColumnName = "prisonerId")
-    })
     private Game game;
 
     public Prisoner() {

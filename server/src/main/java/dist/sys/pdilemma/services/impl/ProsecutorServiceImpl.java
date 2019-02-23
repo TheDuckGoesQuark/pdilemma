@@ -2,6 +2,7 @@ package dist.sys.pdilemma.services.impl;
 
 import dist.sys.pdilemma.entities.Game;
 import dist.sys.pdilemma.entities.Prisoner;
+import dist.sys.pdilemma.exceptions.ConflictException;
 import dist.sys.pdilemma.exceptions.NotFoundException;
 import dist.sys.pdilemma.models.*;
 import dist.sys.pdilemma.repositories.GameRepository;
@@ -10,13 +11,17 @@ import dist.sys.pdilemma.services.ProsecutorService;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Validated
 public class ProsecutorServiceImpl implements ProsecutorService {
 
     private final GameRepository gameRepository;
@@ -67,13 +72,17 @@ public class ProsecutorServiceImpl implements ProsecutorService {
     }
 
     @Override
+    @Transactional
     public PrisonerModel addPrisonerToGame(int gameId) throws NotFoundException {
         final Game game = getGame(gameId) ;
 
-        final Prisoner prisoner = new Prisoner();
-        prisoner.setGame(game);
+        if (game.getPrisoners().size() == 2) throw new ConflictException("Game already has two prisoners.");
+        else {
+            final Prisoner prisoner = new Prisoner();
+            prisoner.setGame(game);
 
-        return prisonerRepository.save(prisoner).toModel();
+            return prisonerRepository.save(prisoner).toModel();
+        }
     }
 
     @Override
@@ -88,12 +97,15 @@ public class ProsecutorServiceImpl implements ProsecutorService {
 
     @Override
     @Transactional
-    public PrisonerModel setPrisonersChoice(int gameId, int prisonerId, ChoiceRequestModel choiceRequest) throws NotFoundException {
+    public PrisonerModel setPrisonersChoice(int gameId, int prisonerId, @Valid @NotNull ChoiceRequestModel choiceRequest) throws NotFoundException {
         final Prisoner prisoner = getPrisonerFromGame(getGame(gameId), prisonerId);
 
-        prisoner.setChoice(choiceRequest.getChoice());
+        if (prisoner.getChoice() != null) throw new ConflictException("Prisoner already made choice.");
+        else {
+            prisoner.setChoice(choiceRequest.getChoice());
 
-        return prisoner.toModel();
+            return prisoner.toModel();
+        }
     }
 
     @Override

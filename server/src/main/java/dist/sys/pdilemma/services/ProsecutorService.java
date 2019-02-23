@@ -5,6 +5,8 @@ import dist.sys.pdilemma.models.ChoiceRequestModel;
 import dist.sys.pdilemma.models.GameModel;
 import dist.sys.pdilemma.models.PrisonerModel;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 public interface ProsecutorService {
@@ -23,7 +25,7 @@ public interface ProsecutorService {
      * @param choice     choice made by prisoner
      * @return updated prisoner with new choice
      */
-    PrisonerModel setPrisonersChoice(int gameId, int prisonerId, ChoiceRequestModel choice) throws NotFoundException;
+    PrisonerModel setPrisonersChoice(int gameId, int prisonerId, @Valid @NotNull ChoiceRequestModel choice) throws NotFoundException;
 
     /**
      * Creates a new game and returns a description of that game
