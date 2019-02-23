@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -189,7 +190,7 @@ public class ProsecutorControllerTest {
 
     @Test
     public void getAllPrisonersFromGameWhenOnePrisoner() throws Exception {
-        Set<PrisonerModel>  prisonerModels = new HashSet<>();
+        Set<PrisonerModel> prisonerModels = new HashSet<>();
         prisonerModels.add(new PrisonerModel(1, BETRAY));
 
         when(prosecutorService.getAllPrisonersFromGame(anyInt())).thenReturn(prisonerModels);
@@ -207,7 +208,7 @@ public class ProsecutorControllerTest {
 
     @Test
     public void getAllPrisonersFromGameWhenTwoPrisoners() throws Exception {
-        Set<PrisonerModel>  prisonerModels = new HashSet<>();
+        Set<PrisonerModel> prisonerModels = new HashSet<>();
         prisonerModels.add(new PrisonerModel(1, BETRAY));
         prisonerModels.add(new PrisonerModel(2, COOPERATE));
 
@@ -257,6 +258,97 @@ public class ProsecutorControllerTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message").value("Conflict Text"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void getPrisonerByIdWhenNotFound() throws Exception {
+        when(prosecutorService.getPrisonerById(anyInt(), anyInt()))
+                .thenThrow(new NotFoundException("Exception Text"));
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games/1/prisoners/1")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Exception Text"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void getPrisonerByIdWhenFound() throws Exception {
+        PrisonerModel prisonerModel = new PrisonerModel(1, BETRAY);
+        when(prosecutorService.getPrisonerById(anyInt(), anyInt())).thenReturn(prisonerModel);
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games/1/prisoners/1")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.prisonerId").value(1))
+                .andExpect(jsonPath("$.choice").value("B"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void setPrisonersChoiceWhenNotFound() throws Exception {
+        when(prosecutorService.setPrisonersChoice(anyInt(), anyInt(), any()))
+                .thenThrow(new NotFoundException("Exception Text"));
+
+        MvcResult result = mockMvc.perform(put("/prosecutor/games/1/prisoners/1")
+                .content("{\"choice\":\"B\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Exception Text"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void setPrisonersChoiceWhenConflict() throws Exception {
+        when(prosecutorService.setPrisonersChoice(anyInt(), anyInt(), any()))
+                .thenThrow(new ConflictException("Exception Text"));
+
+        MvcResult result = mockMvc.perform(put("/prosecutor/games/1/prisoners/1")
+                .content("{\"choice\":\"B\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("Exception Text"))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void setPrisonersChoiceWhenNullBody() throws Exception {
+        MvcResult result = mockMvc.perform(put("/prosecutor/games/1/prisoners/1")
+                .content("")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").isNotEmpty())
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void setPrisonersChoiceWhenFound() throws Exception {
+        PrisonerModel prisonerModel = new PrisonerModel(1, BETRAY);
+        when(prosecutorService.setPrisonersChoice(anyInt(), anyInt(), any())).thenReturn(prisonerModel);
+
+        MvcResult result = mockMvc.perform(put("/prosecutor/games/1/prisoners/1")
+                .content("{\"choice\":\"B\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.prisonerId").value(1))
+                .andExpect(jsonPath("$.choice").value("B"))
                 .andReturn();
 
         assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
