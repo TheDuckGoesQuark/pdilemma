@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
-import {makeChoice, testConnection} from "./PersecutorService";
 import logo from './logo.svg';
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
 import './App.css';
+import TestButton from "./components/TestButton";
+import ChoiceButtons from "./components/ChooseButton";
+import {JoinGame, StartGame} from "./components/GameView";
 
 class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            responseText: "",
-            currentView: TestButton
+            responseText: "Prisoners Dilemma",
+            currentView: Menu
         };
     }
 
@@ -23,64 +27,80 @@ class App extends Component {
 
     getView() {
         switch (this.state.currentView) {
-            default:
             case TestButton:
-                return <TestButton updateView={() => this.updateView(ChoiceButtons)}
+                return <TestButton goBack={() => this.updateView(Menu)}
                                    updateResponseText={(text) => this.updateResponseText(text)}/>;
             case ChoiceButtons:
                 return <ChoiceButtons
                     updateView={(choice, years) => this.updateResponseText(`You chose ${choice} and received ${years} reduction.`)}/>;
+            default:
+            case Menu:
+                return <Menu
+                    updateView={(viewToChangeTo) => this.updateView(viewToChangeTo)}
+                />
         }
     }
 
     render() {
         return (
             <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    {this.getView()}
-                    <p>{this.state.responseText}</p>
-                </header>
+                <Grid container justify="center">
+                    <Grid item xs={12}>
+                        <header className="App-header">
+                            <img src={logo} className="App-logo" alt="logo"/>
+                            <p>{this.state.responseText}</p>
+                        </header>
+                    </Grid>
+                    <Grid item xs={4}>
+                        {this.getView()}
+                    </Grid>
+                </Grid>
             </div>
-        );
+        )
+            ;
     }
 }
 
-class TestButton extends Component {
-    handleTestConnection() {
-        testConnection()
-            .then(text => {
-                this.props.updateResponseText(text);
-                this.props.updateView();
-            }).catch(reason => {
-                this.props.updateResponseText(reason);
-        });
+class Menu extends Component {
+    handleChoice(choice) {
+        this.props.updateView(choice);
     }
 
     render() {
-        return <div>
-            <h1>Press to Test</h1>
-            <button onClick={() => this.handleTestConnection()}>Test</button>
-        </div>
-    }
-}
-
-class ChoiceButtons extends Component {
-    handleCooperate() {
-        makeChoice("C")
-            .then((response) => this.props.updateView("Cooperate", response.numYearsReduction))
-    }
-
-    handleBetray() {
-        makeChoice("B")
-            .then((response) => this.props.updateView("Betray", response.numYearsReduction))
-    }
-
-    render() {
-        return <div>
-            <button onClick={() => this.handleCooperate()}>Cooperate [C]</button>
-            <button onClick={() => this.handleBetray()}>Betray [B]</button>
-        </div>
+        return (
+            <Grid container justify="space-between" direction="column" spacing={16}>
+                <Grid item xs={12}>
+                    <h1>Choose Option</h1>
+                </Grid>
+                <Grid item xs padding={12}>
+                    <Button variant="contained"
+                            color="primary"
+                            size="large"
+                            fullWidth
+                            onClick={() => this.handleChoice(TestButton)}>
+                        Test Connection
+                    </Button>
+                </Grid>
+                <Grid item xs>
+                    <Button variant="contained"
+                            color="primary"
+                            size="large"
+                            fullWidth
+                            onClick={() => this.handleChoice(JoinGame)}>
+                        Join Game
+                    </Button>
+                </Grid>
+                <Grid item xs>
+                    <Button variant="contained"
+                            color="primary"
+                            size="large"
+                            fullWidth
+                            onClick={() => this.handleChoice(StartGame)}>
+                        Start Game
+                    </Button>
+                </Grid>
+            </Grid>
+        )
     }
 }
 
