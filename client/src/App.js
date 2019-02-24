@@ -33,6 +33,10 @@ class App extends Component {
             case ChoiceButtons:
                 return <ChoiceButtons
                     updateView={(choice, years) => this.updateResponseText(`You chose ${choice} and received ${years} reduction.`)}/>;
+            case JoinGame:
+                return <JoinGame/>;
+            case StartGame:
+                return <StartGame/>;
             default:
             case Menu:
                 return <Menu
