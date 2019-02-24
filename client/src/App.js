@@ -25,6 +25,10 @@ class App extends Component {
         this.setState({responseText: newText})
     }
 
+    updatePrisonerId(prisonerId) {
+        this.setState({prisonerId: prisonerId})
+    }
+
     getView() {
         switch (this.state.currentView) {
             case TestButton:
@@ -37,6 +41,9 @@ class App extends Component {
             case JoinGame:
                 return <JoinGame
                     goBack={() => this.updateView(Menu)}
+                    setPrisonerId={(pId) => this.updatePrisonerId(pId)}
+                    updateView={(newView) => this.updateView(newView)}
+                    updateResponseText={(text) => this.updateResponseText(text)}
                 />;
             case StartGame:
                 return <StartGame
