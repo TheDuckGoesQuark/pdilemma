@@ -32,11 +32,16 @@ class App extends Component {
                                    updateResponseText={(text) => this.updateResponseText(text)}/>;
             case ChoiceButtons:
                 return <ChoiceButtons
+                    goBack={() => this.updateView(Menu)}
                     updateView={(choice, years) => this.updateResponseText(`You chose ${choice} and received ${years} reduction.`)}/>;
             case JoinGame:
-                return <JoinGame/>;
+                return <JoinGame
+                    goBack={() => this.updateView(Menu)}
+                />;
             case StartGame:
-                return <StartGame/>;
+                return <StartGame
+                    goBack={() => this.updateView(Menu)}
+                />;
             default:
             case Menu:
                 return <Menu

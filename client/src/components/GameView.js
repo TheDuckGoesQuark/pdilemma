@@ -80,6 +80,12 @@ export class JoinGame extends Component {
                 </Button>
             </Grid>
             {this.state.showGameIdInput ? this.getGameIdInput() : null}
+            <Grid item xs>
+                <Button
+                    color="secondary"
+                    size="medium"
+                    onClick={() => this.props.goBack()}>Go to Menu</Button>
+            </Grid>
         </Grid>);
     }
 
