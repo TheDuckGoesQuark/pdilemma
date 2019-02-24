@@ -3,7 +3,7 @@ import React from "react";
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import {addPrisonerToGame} from "../PersecutorService";
+import {addPrisonerToGame, getPrisonerFromGame} from "../PersecutorService";
 import ChoiceButtons from "./ChooseButton";
 
 export class JoinGame extends Component {
@@ -12,7 +12,8 @@ export class JoinGame extends Component {
         this.state = {
             showGameIdInput: false,
             error: false,
-            gameId: null
+            gameId: null,
+            prisonerId: null
         }
     }
 
@@ -22,14 +23,25 @@ export class JoinGame extends Component {
         } else if (this.state.gameId == null) {
             this.setState({error: true});
         } else {
-            addPrisonerToGame(this.state.gameId)
-                .then(prisonerId => {
-                    this.props.setPrisonerId(prisonerId);
-                    this.props.updateResponseText(`You are prisoner number ${prisonerId}.`);
-                    this.props.updateView(ChoiceButtons)
-                }).catch(reason => {
+            if (this.state.prisonerId == null) {
+                addPrisonerToGame(this.state.gameId)
+                    .then(prisonerId => {
+                        this.props.setPrisonerId(prisonerId);
+                        this.props.updateResponseText(`You are prisoner number ${prisonerId}.`);
+                        this.props.updateView(ChoiceButtons)
+                    }).catch(reason => {
                     this.props.updateResponseText(reason.message)
-            })
+                })
+            } else {
+                getPrisonerFromGame(this.state.gameId)
+                    .then(prisonerId => {
+                        this.props.setPrisonerId(prisonerId);
+                        this.props.updateResponseText(`You are prisoner number ${prisonerId}.`);
+                        this.props.updateView(ChoiceButtons)
+                    }).catch(reason => {
+                    this.props.updateResponseText(reason.message)
+                })
+            }
         }
     }
 
@@ -38,27 +50,42 @@ export class JoinGame extends Component {
     }
 
     handleSubmit(e) {
+        console.log("hello");
         e.preventDefault();
         this.joinGame()
     }
 
-    getGameIdInput() {
-        console.log(this.state.error);
-        return (<Grid item xs padding={12}>
-            <form onSubmit={(e) => this.handleSubmit(e)}>
-                <TextField size="large"
-                           style={{backgroundColor: "grey"}}
-                           id="gameId-input"
-                           name={"Game Id"}
-                           autoFocus
-                           variant="filled"
-                           label="Game Id"
-                           type="number"
-                           error={this.state.error}
-                           onChange={(e) => this.setState({gameId: e.target.value})}
-                />
-            </form>
-        </Grid>)
+    getInputs() {
+        return (<form onSubmit={(e) => this.handleSubmit(e)}>
+            <Grid container direction="row" justify="space-evenly" alignItems="center">
+                <Grid item xs>
+                    <TextField size="large"
+                               required
+                               style={{backgroundColor: "grey"}}
+                               id="gameId-input"
+                               name={"Game Id"}
+                               autoFocus
+                               variant="filled"
+                               label="Game Id"
+                               type="number"
+                               error={this.state.error}
+                               onChange={(e) => this.setState({gameId: e.target.value})}
+                    />
+                </Grid>
+                <Grid item xs>
+                    <TextField size="large"
+                               style={{backgroundColor: "grey"}}
+                               id="gameId-input"
+                               name={"Prisoner Id"}
+                               variant="filled"
+                               label="Prisoner Id"
+                               type="number"
+                               error={this.state.error}
+                               onChange={(e) => this.setState({prisonerId: e.target.value})}
+                    />
+                </Grid>
+            </Grid>
+        </form>);
     }
 
     render() {
@@ -89,7 +116,7 @@ export class JoinGame extends Component {
                         : "Enter Game Id"}
                 </Button>
             </Grid>
-            {this.state.showGameIdInput ? this.getGameIdInput() : null}
+            {this.state.showGameIdInput ? this.getInputs() : null}
             <Grid item xs>
                 <Button
                     color="secondary"
