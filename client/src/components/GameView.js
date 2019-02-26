@@ -3,7 +3,7 @@ import React from "react";
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import {addPrisonerToGame, getPrisonerFromGame} from "../PersecutorService";
+import {addPrisonerToGame, getJoinableGames, getPrisonerFromGame, httpCodes} from "../PersecutorService";
 import ChoiceButtons from "./ChooseButton";
 
 export class JoinGame extends Component {
@@ -17,8 +17,13 @@ export class JoinGame extends Component {
         }
     }
 
-    joinGame() {
-        if (!this.state.showGameIdInput) {
+    handleErrorResponse(reason) {
+        this.props.updateResponseText(reason.message);
+        this.setState({error: true});
+    }
+
+    joinGame(useUserInput) {
+        if (useUserInput && !this.state.showGameIdInput) {
             this.setState({showGameIdInput: true});
         } else if (this.state.gameId == null || this.state.gameId === "") {
             this.setState({error: true});
@@ -29,32 +34,42 @@ export class JoinGame extends Component {
                         this.props.setPrisonerId(prisonerId);
                         this.props.updateResponseText(`You are prisoner number ${prisonerId}.`);
                         this.props.updateView(ChoiceButtons)
-                    }).catch(reason => {
-                    this.props.updateResponseText(reason.message);
-                    this.setState({error: true});
-                })
+                    }).catch(reason => this.handleErrorResponse(reason))
             } else {
                 getPrisonerFromGame(this.state.gameId, this.state.prisonerId)
                     .then(prisonerId => {
                         this.props.setPrisonerId(prisonerId);
                         this.props.updateResponseText(`You are prisoner number ${prisonerId}.`);
                         this.props.updateView(ChoiceButtons)
-                    }).catch(reason => {
-                    this.props.updateResponseText(reason.message);
-                    this.setState({error: true});
-                })
+                    }).catch(reason => this.handleErrorResponse(reason))
             }
         }
     }
 
     joinRandomGame() {
-
+        getJoinableGames()
+            .then((games) => {
+                if (games.length === 0) {
+                    this.props.updateResponseText("No games are currently available to join.");
+                } else {
+                    this.setState({gameId: games[0].gameId});
+                    this.joinGame(false)
+                }
+            })
+            .catch(reason => {
+                // Try again if someone else claimed space in game or game was deleted
+                if (reason.status === httpCodes.conflict || reason.status === httpCodes.notFound) {
+                    this.joinRandomGame()
+                } else {
+                    this.handleErrorResponse(reason)
+                }
+            })
     }
 
     handleSubmit(e) {
         console.log("hello");
         e.preventDefault();
-        this.joinGame()
+        this.joinGame(true)
     }
 
     getInputs() {
@@ -111,7 +126,7 @@ export class JoinGame extends Component {
                         color="primary"
                         size="large"
                         fullWidth
-                        onClick={() => this.joinGame()}>
+                        onClick={() => this.joinGame(true)}>
                     {this.state.showGameIdInput && this.state.gameId != null
                         ? `Start Game ${this.state.gameId}`
                         : "Enter Game Id"}
@@ -129,6 +144,7 @@ export class JoinGame extends Component {
 
 }
 
-export class StartGame extends Component {
+export class StartGame
+    extends Component {
 
 }

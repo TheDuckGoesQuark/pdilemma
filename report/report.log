@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.3)  24 FEB 2019 18:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.3)  26 FEB 2019 20:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -693,37 +693,54 @@ File: images/part1posttest.png Graphic file (type png)
 <use images/part1posttest.png>
 Package pdftex.def Info: images/part1posttest.png  used on input line 112.
 (pdftex.def)             Requested size: 157.94785pt x 81.31596pt.
- [1 <./images/part1pretest.png> <./images/part1posttest.png>] [2]
-Overfull \hbox (0.87927pt too wide) in paragraph at lines 134--135
+ [1 <./images/part1pretest.png> <./images/part1posttest.png>]
+<images/swagger.png, id=23, 939.51pt x 652.4375pt>
+File: images/swagger.png Graphic file (type png)
+<use images/swagger.png>
+Package pdftex.def Info: images/swagger.png  used on input line 134.
+(pdftex.def)             Requested size: 312.00119pt x 216.66891pt.
+ [2]
+Overfull \hbox (0.87927pt too wide) in paragraph at lines 141--142
 []\OT1/cmr/m/n/12 Though a pro-duc-tion ready im-ple-men-ta-tion would use a se
 per-ate database
  []
 
 
-Overfull \hbox (1.3015pt too wide) in paragraph at lines 136--137
+Overfull \hbox (1.3015pt too wide) in paragraph at lines 143--144
 []\OT1/cmr/m/n/12 The Pros-e-cu-torSer-vice was ex-tended to pro-vide all the f
 unc-tonal-ity needed
  []
 
-[3] (./report.bbl) [4] (./report.aux) ) 
+[3 <./images/swagger.png>] [4]
+<images/menu.png, id=35, 347.2975pt x 263.98625pt>
+File: images/menu.png Graphic file (type png)
+<use images/menu.png>
+Package pdftex.def Info: images/menu.png  used on input line 161.
+(pdftex.def)             Requested size: 195.0pt x 148.22603pt.
+<images/joingame.png, id=36, 383.4325pt x 398.48875pt>
+File: images/joingame.png Graphic file (type png)
+<use images/joingame.png>
+Package pdftex.def Info: images/joingame.png  used on input line 170.
+(pdftex.def)             Requested size: 195.0pt x 202.66109pt.
+ (./report.bbl [5 <./images/menu.png> <./images/joingame.png>]) [6] (./report.a
+ux) ) 
 Here is how much of TeX's memory you used:
- 16902 strings out of 494880
- 316543 string characters out of 6179601
- 480441 words of memory out of 5000000
- 19889 multiletter control sequences out of 15000+600000
+ 16917 strings out of 494880
+ 316862 string characters out of 6179601
+ 480465 words of memory out of 5000000
+ 19904 multiletter control sequences out of 15000+600000
  10627 words of font info for 38 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 62i,8n,96p,961b,419s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-tt12.pfb>
-Output written on report.pdf (5 pages, 123823 bytes).
+ 62i,8n,96p,988b,419s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on report.pdf (7 pages, 218892 bytes).
 PDF statistics:
- 50 PDF objects out of 1000 (max. 8388607)
- 31 compressed objects within 1 object stream
+ 64 PDF objects out of 1000 (max. 8388607)
+ 37 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 28 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 43 words of extra memory for PDF output out of 10000 (max. 10000000)
 

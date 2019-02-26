@@ -7,12 +7,15 @@ import TestButton from "./components/TestButton";
 import ChoiceButtons from "./components/ChooseButton";
 import {JoinGame, StartGame} from "./components/GameView";
 
+const TITLE_TEXT = "Prisoners Dilemma";
+
 class App extends Component {
+
 
     constructor(props) {
         super(props);
         this.state = {
-            responseText: "Prisoners Dilemma",
+            responseText: TITLE_TEXT,
             currentView: Menu
         };
     }
@@ -32,7 +35,7 @@ class App extends Component {
     getView() {
         switch (this.state.currentView) {
             case TestButton:
-                return <TestButton goBack={() => this.updateView(Menu)}
+                return <TestButton goBack={() => {this.updateResponseText(TITLE_TEXT); this.updateView(Menu)}}
                                    updateResponseText={(text) => this.updateResponseText(text)}/>;
             case ChoiceButtons:
                 return <ChoiceButtons
