@@ -64,6 +64,17 @@ public class RepositoryUnitTests {
     }
 
     @Test
+    public void findAllFullWhenOneGameWithNoPrisoners() {
+        Game gameOne = gameRepository.save(new Game());
+
+        entityManager.flush();
+
+        Iterable<Game> result = gameRepository.findAllFull();
+
+        assertEquals(0, Iterables.size(result));
+    }
+
+    @Test
     public void findAllAvailableWhenTwoGamesWithNoPrisoners() {
         Game gameOne = gameRepository.save(new Game());
         Game gameTwo = gameRepository.save(new Game());
@@ -75,6 +86,18 @@ public class RepositoryUnitTests {
         assertEquals(2, Iterables.size(result));
         assertTrue(Iterables.contains(result, gameOne));
         assertTrue(Iterables.contains(result, gameTwo));
+    }
+
+    @Test
+    public void findAllAvailableWhenOneGamesWithNoPrisoners() {
+        Game gameOne = gameRepository.save(new Game());
+
+        entityManager.flush();
+
+        Iterable<Game> result = gameRepository.findAllJoinable();
+
+        assertEquals(1, Iterables.size(result));
+        assertTrue(Iterables.contains(result, gameOne));
     }
 
     @Test

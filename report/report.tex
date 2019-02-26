@@ -133,13 +133,15 @@ In order to make the API friendlier to use, error messages were standardised suc
 
 Though a production ready implementation would use a seperate database server, for this practical a simple H2 in-memory database was used. The repository abstraction provided by Spring Data would mean that with some simple configuration, an external database could be used instead. 
 
-The ProsecutorService was extended to provide all the functonality needed for each controller method, such as getting all games, getting a prisoner from a game, creating a new game, and so on. Unit tests were written for each method by mocking the repositories used. Since only simple operations were used (save, findById, findAll), there was no need for unit testing the repository layer also. 
+The ProsecutorService was extended to provide all the functonality needed for each controller method, such as getting all games, getting a prisoner from a game, creating a new game, and so on. Unit tests were written for each method by mocking the repositories used. For the repository layer, only the custom queries were tested, as the framework supplied the rest (\url{save, findById, findAll}). 
 
-In order for the client to join a random game, an optional URL parameter was added to the GET request for all games that would allow the client to filter for 'available' games. Availability in this context is any game that can accept at least another prisoner.
+In order for the client to join a random game, an optional URL parameter was added to the GET request for all games that would allow the client to filter for 'joinable' games. Joinability in this context is any game that can accept at least another prisoner.
 
 The games kept the same structure, where there would be two prisoners per game. Since REST prohibits the use of any kind of session, the client would have to use a polling mechanism to get their years reduction once providing their choice. Message based middleware avoids this issue. For example, a commonly used publish-subscribe messaging protocol middleware provided by Spring Websockets, called STOMP, would allow the client to subscribe to their prisoners status, and allow the server to push the number of years reduction to the client once they became available. REST on the other hand avoids all the overhead involved in maintaining subscriptions and message brokers. The structure of REST APIs also tends to encourage decoupling from any client application, which is useful if the service is ever to be expanded or used differently.
 
 Since the prisoner ID is unique for all prisoners across all games, it would be possible to establish a many-to-many relationship between games and prisoners. Since the heirarchial structure was easier to capture in a REST url design, this functionality was not provided. If it was to be used, a HATEOAS architecture would likely be preferred, where \url{/prisoners} would return a prisoner object with the URLs of all games they partake in, and \url{/games} would return a game object with the URLs of all the prisoners taking part in them. This would avoid cycles in the JSON response objects, and provides what is sometimes referred to as the "final level" of REST.
+
+Given more time, integration tests that would test normal and malicious use patterns would also have been implemented. 
 
 \part{Multiple Client Game - Client}
 
