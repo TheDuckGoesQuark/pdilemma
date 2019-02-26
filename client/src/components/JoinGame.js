@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import {addPrisonerToGame, getJoinableGames, getPrisonerFromGame, httpCodes} from "../PersecutorService";
-import ChoiceButtons from "./ChooseButton";
+import ChoiceView from "./ChooseButton";
 
 class JoinGame extends Component {
     constructor(props) {
@@ -44,7 +44,7 @@ class JoinGame extends Component {
         this.props.updatePrisoner(prisoner);
         this.props.updateGameId(this.state.gameId);
         this.props.updateResponseText(`You are prisoner number ${prisoner.prisonerId}.`);
-        this.props.updateView(ChoiceButtons)
+        this.props.updateView(ChoiceView)
     }
 
     joinRandomGame() {

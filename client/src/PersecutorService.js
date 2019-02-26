@@ -1,6 +1,7 @@
 export const httpCodes = {
     conflict: 409,
-    notFound: 404
+    notFound: 404,
+    preconditionFailed: 412
 };
 
 export async function testConnection() {
@@ -60,10 +61,10 @@ export async function startGame() {
     else return Promise.reject({status: response.status, message: body.message});
 }
 
-export async function makeChoice(choice) {
+export async function makeChoice(gameId, prisonerId, choice) {
     let choiceObj = {choice: choice};
 
-    const response = await fetch('/prosecutor/games/1/prisoners/1', {
+    const response = await fetch(`/prosecutor/games/${gameId}/prisoners/${prisonerId}`, {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(choiceObj)
@@ -71,5 +72,17 @@ export async function makeChoice(choice) {
     const body = await response.json();
 
     if (response.ok) return body;
-    else return Promise.reject(`Error code ${response.status} given`)
+    else return Promise.reject({status: response.status, message: body.message});
 }
+
+export async function getYearsReduction(gameId, prisonerId) {
+    const response = await fetch(`/prosecutor/games/${gameId}/prisoners/${prisonerId}/numYearsReduction`, {
+        headers: {"Content-Type": "application/json"},
+    });
+
+    const body = await response.json();
+
+    if (response.ok) return body.numYearsReduction;
+    else return Promise.reject({status: response.status, message: body.message});
+}
+

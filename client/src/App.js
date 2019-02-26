@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import './App.css';
 import TestButton from "./components/TestButton";
-import ChoiceButtons from "./components/ChooseButton";
+import ChoiceView from "./components/ChooseButton";
 import JoinGame from "./components/JoinGame";
 import {addPrisonerToGame, startGame} from "./PersecutorService";
 
@@ -41,18 +41,16 @@ class App extends Component {
     getView() {
         switch (this.state.currentView) {
             case TestButton:
-                return <TestButton goBack={() => {
-                    this.updateResponseText(TITLE_TEXT);
-                    this.updateView(Menu)
-                }}
-                                   updateResponseText={(text) => this.updateResponseText(text)}/>;
-            case ChoiceButtons:
-                return <ChoiceButtons
-                    goBack={() => this.updateView(Menu)}
-                    updateView={(choice, years) => {
-                        this.updateResponseText(`You chose ${choice} and received ${years} reduction.`);
+                return <TestButton
+                    goBack={() => {
+                        this.updateResponseText(TITLE_TEXT);
                         this.updateView(Menu)
                     }}
+                    updateResponseText={(text) => this.updateResponseText(text)}/>;
+            case ChoiceView:
+                return <ChoiceView
+                    goBack={() => this.updateView(Menu)}
+                    updateResponseText={(text) => this.updateResponseText(text)}
                     gameId={this.state.gameId}
                     prisoner={this.state.prisoner}
                 />;
@@ -144,7 +142,7 @@ class Menu extends Component {
         }).then((prisoner) => {
             this.props.updatePrisoner(prisoner);
             this.props.updateResponseText(`You are prisoner number ${prisoner.prisonerId}.`);
-            this.props.updateView(ChoiceButtons)
+            this.props.updateView(ChoiceView)
         }).catch((reason) => this.props.updateResponseText(reason.message))
     }
 
