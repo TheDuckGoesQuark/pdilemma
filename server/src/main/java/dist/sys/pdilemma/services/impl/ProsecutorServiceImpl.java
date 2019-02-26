@@ -64,6 +64,17 @@ public class ProsecutorServiceImpl implements ProsecutorService {
     }
 
     @Override
+    public Set<GameModel> getAllGamesWithJoinability(boolean available) {
+        return null;
+//        if (available)
+//        final Set<GameModel> games = new HashSet<>();
+//        for (Game game : gameRepository.findAll()) {
+//            games.add(game.toModel());
+//        }
+//        return games;
+    }
+
+    @Override
     public GameModel getGameById(int gameId) throws NotFoundException {
         return getGame(gameId).toModel();
     }

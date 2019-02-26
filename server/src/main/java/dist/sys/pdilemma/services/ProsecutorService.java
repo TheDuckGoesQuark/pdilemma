@@ -41,6 +41,15 @@ public interface ProsecutorService {
     Set<GameModel> getAllGames();
 
     /**
+     * Returns all games with the given availability
+     *
+     * @param availability true will filter for games that have space for another prisoner,
+     *                     false will return all games with all prisoners
+     * @return all games with the requested availability
+     */
+    Set<GameModel> getAllGamesWithJoinability(boolean availability);
+
+    /**
      * Returns game with the given Id
      *
      * @param gameId id of game to get
@@ -58,7 +67,8 @@ public interface ProsecutorService {
 
     /**
      * Gets the prisoner from the given game that has the given Id
-     * @param gameId id of game to fetch prisoner from
+     *
+     * @param gameId     id of game to fetch prisoner from
      * @param prisonerId id of prisoner to fetch
      * @return prisoner with the given id from the game with the given id
      */
@@ -66,6 +76,7 @@ public interface ProsecutorService {
 
     /**
      * Gets all the prisoners taking part in the game with the given id
+     *
      * @param gameId id of game to fetch prisoners for
      * @return All prisoners taking part in the game with the given Id
      */
@@ -73,6 +84,7 @@ public interface ProsecutorService {
 
     /**
      * Deletes the game with the given id
+     *
      * @param gameId id of game to delete
      */
     void deleteGameById(int gameId) throws NotFoundException;
@@ -80,9 +92,10 @@ public interface ProsecutorService {
     /**
      * Gets the number of years reduction resulting from a prisoners choice.
      *
-     * @param gameId id of game prisoner belongs to
+     * @param gameId     id of game prisoner belongs to
      * @param prisonerId id of prisoner to get number of years reduction for
      * @return number of years reduction for prisoner
      */
     ProsecutorResponseModel getYearsReduction(int gameId, int prisonerId);
+
 }

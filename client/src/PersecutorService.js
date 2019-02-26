@@ -9,6 +9,17 @@ export async function testConnection() {
     return Promise.reject("Failed to Connect.")
 }
 
+export async function getAvailableGame() {
+    const response = await fetch('/prosecutor/games?available=true', {
+        method: "GET",
+        headers : {"Content-Type": "application/json"},
+    });
+    const body = await response.json();
+
+    if (response.ok) return body.prisonerId;
+    else return Promise.reject({status: response.status, message: body.message});
+}
+
 export async function getPrisonerFromGame(gameId, prisonerId) {
     const response = await fetch(`/prosecutor/games/${gameId}/prisoners/${prisonerId}`, {
         method: "GET",

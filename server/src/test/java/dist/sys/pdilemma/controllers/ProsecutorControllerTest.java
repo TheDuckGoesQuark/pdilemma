@@ -114,6 +114,55 @@ public class ProsecutorControllerTest {
     }
 
     @Test
+    public void getAllGamesByJoinabilityWhenNoGamesAndJoinableTrue() throws Exception {
+        when(prosecutorService.getAllGamesWithJoinability(eq(true))).thenReturn(new HashSet<>());
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games?joinable=true")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(0))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void getAllGamesByJoinabilityWhenNoGamesAndJoinableFalse() throws Exception {
+        when(prosecutorService.getAllGamesWithJoinability(eq(false))).thenReturn(new HashSet<>());
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games?joinable=false")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(0))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
+    public void getAllGamesByJoinabilityWhenOneGameJoinableFalse() throws Exception {
+        Set<PrisonerModel> prisoners = new HashSet<>();
+        prisoners.add(new PrisonerModel(1, Choice.COOPERATE));
+        prisoners.add(new PrisonerModel(2, BETRAY));
+        GameModel gameModel = new GameModel(1, prisoners);
+        when(prosecutorService.getAllGamesWithJoinability(eq(false)))
+                .thenReturn(Collections.singleton(gameModel));
+
+        MvcResult result = mockMvc.perform(get("/prosecutor/games?joinable=false")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].gameId").value(1))
+                .andExpect(jsonPath("$[0].prisoners.length()").value(2))
+                .andReturn();
+
+        assertEquals("application/json;charset=UTF-8", result.getResponse().getContentType());
+    }
+
+    @Test
     public void startNewGame() throws Exception {
         GameModel gameOne = new GameModel(1, new HashSet<>());
 

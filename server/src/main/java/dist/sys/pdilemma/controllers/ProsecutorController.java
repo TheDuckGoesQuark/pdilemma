@@ -40,6 +40,12 @@ public class ProsecutorController {
         return prosecutorService.getAllGames();
     }
 
+    @GetMapping(value = "/games", params = "joinable")
+    @ResponseStatus(HttpStatus.OK)
+    public Set<GameModel> getAllGamesByJoinability(@RequestParam("joinable") boolean joinable) {
+        return prosecutorService.getAllGamesWithJoinability(joinable);
+    }
+
     @PostMapping("/games")
     @ResponseStatus(HttpStatus.CREATED)
     public GameModel startNewGame() {

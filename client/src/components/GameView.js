@@ -20,26 +20,28 @@ export class JoinGame extends Component {
     joinGame() {
         if (!this.state.showGameIdInput) {
             this.setState({showGameIdInput: true});
-        } else if (this.state.gameId == null) {
+        } else if (this.state.gameId == null || this.state.gameId === "") {
             this.setState({error: true});
         } else {
-            if (this.state.prisonerId == null) {
+            if (this.state.prisonerId === undefined || this.state.prisonerId == null) {
                 addPrisonerToGame(this.state.gameId)
                     .then(prisonerId => {
                         this.props.setPrisonerId(prisonerId);
                         this.props.updateResponseText(`You are prisoner number ${prisonerId}.`);
                         this.props.updateView(ChoiceButtons)
                     }).catch(reason => {
-                    this.props.updateResponseText(reason.message)
+                    this.props.updateResponseText(reason.message);
+                    this.setState({error: true});
                 })
             } else {
-                getPrisonerFromGame(this.state.gameId)
+                getPrisonerFromGame(this.state.gameId, this.state.prisonerId)
                     .then(prisonerId => {
                         this.props.setPrisonerId(prisonerId);
                         this.props.updateResponseText(`You are prisoner number ${prisonerId}.`);
                         this.props.updateView(ChoiceButtons)
                     }).catch(reason => {
-                    this.props.updateResponseText(reason.message)
+                    this.props.updateResponseText(reason.message);
+                    this.setState({error: true});
                 })
             }
         }
@@ -80,7 +82,6 @@ export class JoinGame extends Component {
                                variant="filled"
                                label="Prisoner Id"
                                type="number"
-                               error={this.state.error}
                                onChange={(e) => this.setState({prisonerId: e.target.value})}
                     />
                 </Grid>
