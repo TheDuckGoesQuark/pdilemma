@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ProsecutorController.class)
-public class ProsecutorControllerTest {
+public class ProsecutorControllerUnitTests {
 
     @MockBean
     private ProsecutorService prosecutorService;

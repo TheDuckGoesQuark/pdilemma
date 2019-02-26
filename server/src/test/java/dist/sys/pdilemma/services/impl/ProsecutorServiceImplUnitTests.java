@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ProsecutorServiceImpl.class)
 @EnableConfigurationProperties
-public class ProsecutorServiceImplTest {
+public class ProsecutorServiceImplUnitTests {
 
     @Autowired
     private ProsecutorService prosecutorService;
@@ -98,6 +98,90 @@ public class ProsecutorServiceImplTest {
         when(gameRepository.findAll()).thenReturn(savedGames);
 
         Set<GameModel> games = prosecutorService.getAllGames();
+
+        assertEquals(2, games.size());
+        assertTrue(games.stream().anyMatch(g -> g.getGameId() == 1));
+        assertTrue(games.stream().anyMatch(g -> g.getGameId() == 2));
+    }
+
+    @Test
+    public void getAllGamesWithJoinabilityWhenNoGamesJoinable() {
+        when(gameRepository.findAllJoinable()).thenReturn(new HashSet<>());
+
+        Set<GameModel> games = prosecutorService.getAllGamesWithJoinability(true);
+
+        assertEquals(0, games.size());
+    }
+
+    @Test
+    public void getAllGamesWithJoinabilityWhenNoGamesFull() {
+        when(gameRepository.findAllFull()).thenReturn(new HashSet<>());
+
+        Set<GameModel> games = prosecutorService.getAllGamesWithJoinability(false);
+
+        assertEquals(0, games.size());
+    }
+
+    @Test
+    public void getAllGamesWithJoinabilityWhenOneGameJoinable() {
+        Game newGame = new Game();
+        newGame.setGameId(1);
+        when(gameRepository.findAllJoinable()).thenReturn(Collections.singleton(newGame));
+
+        Set<GameModel> games = prosecutorService.getAllGamesWithJoinability(true);
+
+        assertEquals(1, games.size());
+        GameModel responseGame = games.iterator().next();
+
+        assertEquals(1, responseGame.getGameId());
+        assertEquals(0, responseGame.getPrisoners().size());
+    }
+
+    @Test
+    public void getAllGamesWithJoinabilityWhenOneGameFull() {
+        Game newGame = new Game();
+        newGame.setGameId(1);
+        when(gameRepository.findAllFull()).thenReturn(Collections.singleton(newGame));
+
+        Set<GameModel> games = prosecutorService.getAllGamesWithJoinability(false);
+
+        assertEquals(1, games.size());
+        GameModel responseGame = games.iterator().next();
+
+        assertEquals(1, responseGame.getGameId());
+        assertEquals(0, responseGame.getPrisoners().size());
+    }
+
+    @Test
+    public void getAllGamesWithJoinabilityWhenTwoGamesJoinable() {
+        Game gameOne = new Game();
+        gameOne.setGameId(1);
+        Game gameTwo = new Game();
+        gameTwo.setGameId(2);
+        Set<Game> savedGames = new HashSet<>();
+        savedGames.add(gameOne);
+        savedGames.add(gameTwo);
+        when(gameRepository.findAllJoinable()).thenReturn(savedGames);
+
+        Set<GameModel> games = prosecutorService.getAllGamesWithJoinability(true);
+
+        assertEquals(2, games.size());
+        assertTrue(games.stream().anyMatch(g -> g.getGameId() == 1));
+        assertTrue(games.stream().anyMatch(g -> g.getGameId() == 2));
+    }
+
+    @Test
+    public void getAllGamesWithJoinabilityWhenTwoGamesFull() {
+        Game gameOne = new Game();
+        gameOne.setGameId(1);
+        Game gameTwo = new Game();
+        gameTwo.setGameId(2);
+        Set<Game> savedGames = new HashSet<>();
+        savedGames.add(gameOne);
+        savedGames.add(gameTwo);
+        when(gameRepository.findAllFull()).thenReturn(savedGames);
+
+        Set<GameModel> games = prosecutorService.getAllGamesWithJoinability(false);
 
         assertEquals(2, games.size());
         assertTrue(games.stream().anyMatch(g -> g.getGameId() == 1));

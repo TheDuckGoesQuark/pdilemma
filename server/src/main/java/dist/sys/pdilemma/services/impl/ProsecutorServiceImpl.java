@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class ProsecutorServiceImpl implements ProsecutorService {
@@ -64,14 +65,16 @@ public class ProsecutorServiceImpl implements ProsecutorService {
     }
 
     @Override
-    public Set<GameModel> getAllGamesWithJoinability(boolean available) {
-        return null;
-//        if (available)
-//        final Set<GameModel> games = new HashSet<>();
-//        for (Game game : gameRepository.findAll()) {
-//            games.add(game.toModel());
-//        }
-//        return games;
+    public Set<GameModel> getAllGamesWithJoinability(boolean joinable) {
+        if (joinable) {
+            return StreamSupport.stream(gameRepository.findAllJoinable().spliterator(),false)
+                    .map(Game::toModel)
+                    .collect(Collectors.toSet());
+        } else {
+            return StreamSupport.stream(gameRepository.findAllFull().spliterator(),false)
+                    .map(Game::toModel)
+                    .collect(Collectors.toSet());
+        }
     }
 
     @Override

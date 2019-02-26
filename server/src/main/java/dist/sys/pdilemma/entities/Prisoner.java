@@ -4,6 +4,7 @@ import dist.sys.pdilemma.models.Choice;
 import dist.sys.pdilemma.models.PrisonerModel;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "prisoner")
@@ -49,5 +50,18 @@ public class Prisoner {
 
     public PrisonerModel toModel() {
         return new PrisonerModel(prisonerId, choice);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Prisoner prisoner = (Prisoner) o;
+        return getPrisonerId() == prisoner.getPrisonerId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPrisonerId());
     }
 }

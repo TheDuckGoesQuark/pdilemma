@@ -2,9 +2,11 @@ package dist.sys.pdilemma.entities;
 
 
 import dist.sys.pdilemma.models.GameModel;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,5 +49,18 @@ public class Game {
         return new GameModel(
                 this.gameId,
                 this.prisoners.stream().map(Prisoner::toModel).collect(Collectors.toSet()));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return getGameId() == game.getGameId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getGameId());
     }
 }
