@@ -5,18 +5,20 @@ import Grid from '@material-ui/core/Grid'
 import './App.css';
 import TestButton from "./components/TestButton";
 import ChoiceButtons from "./components/ChooseButton";
-import {JoinGame, StartGame} from "./components/GameView";
+import JoinGame from "./components/JoinGame";
+import {addPrisonerToGame, startGame} from "./PersecutorService";
 
 const TITLE_TEXT = "Prisoners Dilemma";
 
 class App extends Component {
 
-
     constructor(props) {
         super(props);
         this.state = {
             responseText: TITLE_TEXT,
-            currentView: Menu
+            currentView: Menu,
+            prisoner: undefined,
+            gameId: undefined
         };
     }
 
@@ -28,34 +30,47 @@ class App extends Component {
         this.setState({responseText: newText})
     }
 
-    updatePrisonerId(prisonerId) {
-        this.setState({prisonerId: prisonerId})
+    updatePrisoner(prisoner) {
+        this.setState({prisoner: prisoner})
+    }
+
+    updateGameId(gameId) {
+        this.setState({gameId: gameId})
     }
 
     getView() {
         switch (this.state.currentView) {
             case TestButton:
-                return <TestButton goBack={() => {this.updateResponseText(TITLE_TEXT); this.updateView(Menu)}}
+                return <TestButton goBack={() => {
+                    this.updateResponseText(TITLE_TEXT);
+                    this.updateView(Menu)
+                }}
                                    updateResponseText={(text) => this.updateResponseText(text)}/>;
             case ChoiceButtons:
                 return <ChoiceButtons
                     goBack={() => this.updateView(Menu)}
-                    updateView={(choice, years) => this.updateResponseText(`You chose ${choice} and received ${years} reduction.`)}/>;
+                    updateView={(choice, years) => {
+                        this.updateResponseText(`You chose ${choice} and received ${years} reduction.`);
+                        this.updateView(Menu)
+                    }}
+                    gameId={this.state.gameId}
+                    prisoner={this.state.prisoner}
+                />;
             case JoinGame:
                 return <JoinGame
                     goBack={() => this.updateView(Menu)}
-                    setPrisonerId={(pId) => this.updatePrisonerId(pId)}
+                    updatePrisoner={(prisoner) => this.updatePrisoner(prisoner)}
+                    updateGameId={(gId) => this.updateGameId(gId)}
                     updateView={(newView) => this.updateView(newView)}
                     updateResponseText={(text) => this.updateResponseText(text)}
-                />;
-            case StartGame:
-                return <StartGame
-                    goBack={() => this.updateView(Menu)}
                 />;
             default:
             case Menu:
                 return <Menu
                     updateView={(viewToChangeTo) => this.updateView(viewToChangeTo)}
+                    updatePrisoner={(prisoner) => this.updatePrisoner(prisoner)}
+                    updateResponseText={(text) => this.updateResponseText(text)}
+                    updateGameId={(gId) => this.updateGameId(gId)}
                 />
         }
     }
@@ -114,13 +129,26 @@ class Menu extends Component {
                             color="primary"
                             size="large"
                             fullWidth
-                            onClick={() => this.handleChoice(StartGame)}>
+                            onClick={() => this.startNewGame()}>
                         Start Game
                     </Button>
                 </Grid>
             </Grid>
         )
     }
+
+    startNewGame() {
+        startGame().then((gameId) => {
+            this.props.updateGameId(gameId);
+            return addPrisonerToGame(gameId)
+        }).then((prisoner) => {
+            this.props.updatePrisoner(prisoner);
+            this.props.updateResponseText(`You are prisoner number ${prisoner.prisonerId}.`);
+            this.props.updateView(ChoiceButtons)
+        }).catch((reason) => this.props.updateResponseText(reason.message))
+    }
+
+
 }
 
 export default App;

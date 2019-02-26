@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField'
 import {addPrisonerToGame, getJoinableGames, getPrisonerFromGame, httpCodes} from "../PersecutorService";
 import ChoiceButtons from "./ChooseButton";
 
-export class JoinGame extends Component {
+class JoinGame extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,21 +29,22 @@ export class JoinGame extends Component {
             this.setState({error: true});
         } else {
             if (this.state.prisonerId === undefined || this.state.prisonerId == null) {
-                addPrisonerToGame(this.state.gameId)
-                    .then(prisonerId => {
-                        this.props.setPrisonerId(prisonerId);
-                        this.props.updateResponseText(`You are prisoner number ${prisonerId}.`);
-                        this.props.updateView(ChoiceButtons)
-                    }).catch(reason => this.handleErrorResponse(reason))
+                return addPrisonerToGame(this.state.gameId)
+                    .then(prisoner => this.prepareChoiceView(prisoner))
+                    .catch(reason => this.handleErrorResponse(reason))
             } else {
-                getPrisonerFromGame(this.state.gameId, this.state.prisonerId)
-                    .then(prisonerId => {
-                        this.props.setPrisonerId(prisonerId);
-                        this.props.updateResponseText(`You are prisoner number ${prisonerId}.`);
-                        this.props.updateView(ChoiceButtons)
-                    }).catch(reason => this.handleErrorResponse(reason))
+                return getPrisonerFromGame(this.state.gameId, this.state.prisonerId)
+                    .then(prisoner => this.prepareChoiceView(prisoner))
+                    .catch(reason => this.handleErrorResponse(reason))
             }
         }
+    }
+
+    prepareChoiceView(prisoner) {
+        this.props.updatePrisoner(prisoner);
+        this.props.updateGameId(this.state.gameId);
+        this.props.updateResponseText(`You are prisoner number ${prisoner.prisonerId}.`);
+        this.props.updateView(ChoiceButtons)
     }
 
     joinRandomGame() {
@@ -144,7 +145,4 @@ export class JoinGame extends Component {
 
 }
 
-export class StartGame
-    extends Component {
-
-}
+export default JoinGame

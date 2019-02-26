@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import {makeChoice} from "../PersecutorService";
 
 class ChoiceButtons extends Component {
+
     handleCooperate() {
         makeChoice("C")
             .then((response) => this.props.updateView("Cooperate", response.numYearsReduction))
@@ -15,7 +16,7 @@ class ChoiceButtons extends Component {
     }
 
     render() {
-        return <Grid container>
+        return <Grid container direction="row" justify="space-between" alignItems="center">
             <Grid item xs>
                 <Button variant="contained"
                         color="primary"
@@ -23,6 +24,8 @@ class ChoiceButtons extends Component {
                         onClick={() => this.handleCooperate()}>
                     Cooperate [C]
                 </Button>
+            </Grid>
+            <Grid item xs={2}>
             </Grid>
             <Grid item xs>
                 <Button variant="contained"

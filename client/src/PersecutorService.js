@@ -33,7 +33,7 @@ export async function getPrisonerFromGame(gameId, prisonerId) {
     });
     const body = await response.json();
 
-    if (response.ok) return body.prisonerId;
+    if (response.ok) return body;
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -44,7 +44,19 @@ export async function addPrisonerToGame(gameId) {
     });
     const body = await response.json();
 
-    if (response.ok) return body.prisonerId;
+    if (response.ok) return body;
+    else return Promise.reject({status: response.status, message: body.message});
+}
+
+export async function startGame() {
+    const response = await fetch(`/prosecutor/games/`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+    });
+
+    const body = await response.json();
+
+    if (response.ok) return body.gameId;
     else return Promise.reject({status: response.status, message: body.message});
 }
 
