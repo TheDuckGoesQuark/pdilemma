@@ -43,7 +43,7 @@ class JoinGame extends Component {
     prepareChoiceView(prisoner) {
         this.props.updatePrisoner(prisoner);
         this.props.updateGameId(this.state.gameId);
-        this.props.updateResponseText(`You are prisoner number ${prisoner.prisonerId}.`);
+        this.props.updateResponseText(`You are prisoner number ${prisoner.prisonerId}. Share your game Id: ${this.state.gameId}`);
         this.props.updateView(ChoiceView)
     }
 

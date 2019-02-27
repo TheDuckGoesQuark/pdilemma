@@ -50,12 +50,14 @@ class MainMenu extends Component {
     }
 
     startNewGame() {
+        let newGameId;
         startGame().then((gameId) => {
+            newGameId= gameId;
             this.props.updateGameId(gameId);
             return addPrisonerToGame(gameId)
         }).then((prisoner) => {
             this.props.updatePrisoner(prisoner);
-            this.props.updateResponseText(`You are prisoner number ${prisoner.prisonerId}.`);
+            this.props.updateResponseText(`You are prisoner number ${prisoner.prisonerId}. Share your game Id: ${newGameId}`);
             this.props.updateView(ChoiceView)
         }).catch((reason) => this.props.updateResponseText(reason.message))
     }

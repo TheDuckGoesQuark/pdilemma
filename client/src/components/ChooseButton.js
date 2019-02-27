@@ -27,7 +27,7 @@ class ChoiceView extends Component {
 
     handleReply(retVal) {
         this.props.goBack();
-        this.props.updateResponseText(`You received ${retVal} years for choosing to ${this.state.choice}`)
+        this.props.updateResponseText(`You received a reduction to your sentence of ${retVal} years for choosing to ${this.state.choice}`)
     }
 
     handleFailToPoll(reason) {
