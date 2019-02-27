@@ -181,8 +181,25 @@ If able to join a game, the user is then taken to the choice buttons screen (Fig
         \label{fig:makechoice}
 \end{figure}
 
-Start game allows the user to begin a new game, and immediately moves to the choice buttons screen. 
+Start game allows the user to begin a new game, and immediately moves to the choice buttons screen. Once the player has made their decision, the client will begin polling the server for the number of years reduction (Figure \ref{fig:polling}). 
 
+In order to prepare for possible failure, prisoners who started a game and disconnected for whatever reason can return to the game to make their choice at a later time by rejoining with their game and prisoner Id. The same can be done if they experience a failure while waiting for the other prisoner, and in this case they will either be immediately shown the result of their choice, or the polling message screen.
+
+\begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.5\textwidth]{images/polling} % first figure itself
+        \caption{Polling Screen}
+        \label{fig:polling}
+\end{figure}
+
+To try and minimise server load, the polling mechanism uses random exponential back off with a cap to avoid ridiculous waiting times. The wait time begins at 2 seconds, and is multiplied by a random number between 1 and 2 after every failed try, and reset to 2 seconds after the time reacahes 7 seconds. This jitter is included to avoid stampedes when all clients experience failure at the same time and their polling times become synchronized, which could be catastraphic for the server. A graph of the network activity while polling is shown in Figure \ref{fig:jitter} which demonstrates the jitter with backoff.
+
+\begin{figure}[!ht]
+        \centering
+        \includegraphics[width=\textwidth]{images/jitter} % first figure itself
+        \caption{Exponential back-off with jitter}
+        \label{fig:jitter}
+\end{figure}
 
 \part*{Conclusion}
 

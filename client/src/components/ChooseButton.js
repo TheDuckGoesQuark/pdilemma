@@ -59,12 +59,28 @@ class ChoiceView extends Component {
 
 class PollingIcon extends Component {
 
+    constructor(props) {
+        super(props);
+        this.delay = 2000
+    }
+
     componentDidMount() {
-        this.timer = setInterval(() => this.pollForYearsReduction(), 2000)
+        this.beginTimer()
+    }
+
+    beginTimer() {
+        this.timer = setTimeout(() => this.pollForYearsReduction(), this.delay)
     }
 
     componentWillUnmount() {
-        clearInterval(this.timer);
+        clearTimeout(this.timer);
+    }
+
+    updateDelay() {
+        this.delay = this.delay * (1 + Math.random());
+        if (this.delay > 7000) {
+            this.delay = 2000
+        }
     }
 
     pollForYearsReduction() {
@@ -73,6 +89,9 @@ class PollingIcon extends Component {
             .catch(reason => {
                 if (reason.status !== httpCodes.preconditionFailed) {
                     this.props.handleFailToPoll(reason)
+                } else {
+                    this.updateDelay();
+                    this.beginTimer();
                 }
             })
     }
