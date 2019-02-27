@@ -5,7 +5,6 @@ import {getYearsReduction, httpCodes, makeChoice} from "../PersecutorService";
 import {CircularProgress} from "@material-ui/core";
 
 class ChoiceView extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -49,6 +48,10 @@ class ChoiceView extends Component {
 
     handleReturnValue(retVal) {
 
+    }
+
+    render() {
+        return this.getView();
     }
 }
 
