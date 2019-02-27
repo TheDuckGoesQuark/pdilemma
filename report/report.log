@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.3)  27 FEB 2019 17:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.3)  27 FEB 2019 17:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -683,30 +683,34 @@ Package pdftex.def Info: images/standrewslogo.png  used on input line 84.
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./images/standrewslogo.png
 >]
+Underfull \hbox (badness 10000) in paragraph at lines 96--97
+
+ []
+
 <images/part1pretest.png, id=16, 366.36874pt x 160.6pt>
 File: images/part1pretest.png Graphic file (type png)
 <use images/part1pretest.png>
-Package pdftex.def Info: images/part1pretest.png  used on input line 106.
+Package pdftex.def Info: images/part1pretest.png  used on input line 108.
 (pdftex.def)             Requested size: 157.94785pt x 69.23798pt.
 <images/part1posttest.png, id=17, 372.39125pt x 191.71625pt>
 File: images/part1posttest.png Graphic file (type png)
 <use images/part1posttest.png>
-Package pdftex.def Info: images/part1posttest.png  used on input line 112.
+Package pdftex.def Info: images/part1posttest.png  used on input line 114.
 (pdftex.def)             Requested size: 157.94785pt x 81.31596pt.
- [1 <./images/part1pretest.png> <./images/part1posttest.png>]
+[1 <./images/part1pretest.png> <./images/part1posttest.png>]
 <images/swagger.png, id=23, 939.51pt x 652.4375pt>
 File: images/swagger.png Graphic file (type png)
 <use images/swagger.png>
-Package pdftex.def Info: images/swagger.png  used on input line 134.
+Package pdftex.def Info: images/swagger.png  used on input line 136.
 (pdftex.def)             Requested size: 312.00119pt x 216.66891pt.
  [2]
-Overfull \hbox (0.87927pt too wide) in paragraph at lines 141--142
+Overfull \hbox (0.87927pt too wide) in paragraph at lines 143--144
 []\OT1/cmr/m/n/12 Though a pro-duc-tion ready im-ple-men-ta-tion would use a se
 per-ate database
  []
 
 
-Overfull \hbox (1.3015pt too wide) in paragraph at lines 143--144
+Overfull \hbox (1.3015pt too wide) in paragraph at lines 145--146
 []\OT1/cmr/m/n/12 The Pros-e-cu-torSer-vice was ex-tended to pro-vide all the f
 unc-tonal-ity needed
  []
@@ -715,34 +719,34 @@ unc-tonal-ity needed
 <images/menu.png, id=35, 723.70375pt x 453.695pt>
 File: images/menu.png Graphic file (type png)
 <use images/menu.png>
-Package pdftex.def Info: images/menu.png  used on input line 163.
+Package pdftex.def Info: images/menu.png  used on input line 165.
 (pdftex.def)             Requested size: 195.0pt x 122.24313pt.
 <images/joingame.png, id=36, 383.4325pt x 398.48875pt>
 File: images/joingame.png Graphic file (type png)
 <use images/joingame.png>
-Package pdftex.def Info: images/joingame.png  used on input line 172.
+Package pdftex.def Info: images/joingame.png  used on input line 174.
 (pdftex.def)             Requested size: 195.0pt x 202.66109pt.
 <images/makechoice.png, id=37, 691.58376pt x 140.525pt>
 File: images/makechoice.png Graphic file (type png)
 <use images/makechoice.png>
-Package pdftex.def Info: images/makechoice.png  used on input line 181.
+Package pdftex.def Info: images/makechoice.png  used on input line 183.
 (pdftex.def)             Requested size: 195.0pt x 39.62119pt.
  [5 <./images/menu.png>]
 <images/polling.png, id=42, 308.15125pt x 163.61125pt>
 File: images/polling.png Graphic file (type png)
 <use images/polling.png>
-Package pdftex.def Info: images/polling.png  used on input line 192.
+Package pdftex.def Info: images/polling.png  used on input line 194.
 (pdftex.def)             Requested size: 195.0pt x 103.53748pt.
  [6 <./images/joingame.png> <./images/makechoice.png> <./images/polling.png>]
 <images/jitter.png, id=50, 534.99875pt x 91.34125pt>
 File: images/jitter.png Graphic file (type png)
 <use images/jitter.png>
-Package pdftex.def Info: images/jitter.png  used on input line 201.
+Package pdftex.def Info: images/jitter.png  used on input line 203.
 (pdftex.def)             Requested size: 390.0pt x 66.58795pt.
 <images/stats.png, id=51, 674.52pt x 458.71375pt>
 File: images/stats.png Graphic file (type png)
 <use images/stats.png>
-Package pdftex.def Info: images/stats.png  used on input line 210.
+Package pdftex.def Info: images/stats.png  used on input line 212.
 (pdftex.def)             Requested size: 390.0pt x 265.22823pt.
  [7 <./images/jitter.png>]
 [8 <./images/stats.png>] (./report.bbl) [9] (./report.aux) ) 
@@ -760,7 +764,7 @@ Here is how much of TeX's memory you used:
 /fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmtt12.pfb>
-Output written on report.pdf (10 pages, 263694 bytes).
+Output written on report.pdf (10 pages, 263749 bytes).
 PDF statistics:
  81 PDF objects out of 1000 (max. 8388607)
  43 compressed objects within 1 object stream

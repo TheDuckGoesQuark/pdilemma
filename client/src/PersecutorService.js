@@ -1,8 +1,11 @@
 export const httpCodes = {
     conflict: 409,
     notFound: 404,
-    preconditionFailed: 412
+    preconditionFailed: 412,
+    internalServerError: 500
 };
+
+const FAIL_TO_CONNECT = "Failed to Connect.";
 
 export async function testConnection() {
     try {
@@ -13,7 +16,7 @@ export async function testConnection() {
     } catch (ignored) {
     }
 
-    return Promise.reject("Failed to Connect.")
+    return Promise.reject(FAIL_TO_CONNECT)
 }
 
 export async function getJoinableGames() {
@@ -24,6 +27,7 @@ export async function getJoinableGames() {
     const body = await response.json();
 
     if (response.ok) return body;
+    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -35,6 +39,7 @@ export async function getPrisonerFromGame(gameId, prisonerId) {
     const body = await response.json();
 
     if (response.ok) return body;
+    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -46,6 +51,7 @@ export async function addPrisonerToGame(gameId) {
     const body = await response.json();
 
     if (response.ok) return body;
+    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -58,6 +64,7 @@ export async function startGame() {
     const body = await response.json();
 
     if (response.ok) return body.gameId;
+    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -72,6 +79,7 @@ export async function makeChoice(gameId, prisonerId, choice) {
     const body = await response.json();
 
     if (response.ok) return body;
+    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -83,6 +91,7 @@ export async function getYearsReduction(gameId, prisonerId) {
     const body = await response.json();
 
     if (response.ok) return body.numYearsReduction;
+    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -94,5 +103,6 @@ export async function getAllGames() {
     const body = await response.json();
 
     if (response.ok) return body;
+    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
