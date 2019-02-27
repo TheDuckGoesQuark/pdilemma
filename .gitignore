@@ -1,6 +1,8 @@
 /target/
 !server/.mvn/wrapper/maven-wrapper.jar
 
+submission*
+
 ### MVN ###
 server/mvnw
 server/mvnw.cmd

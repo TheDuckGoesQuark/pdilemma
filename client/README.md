@@ -37,9 +37,9 @@ Your app is ready to be deployed!
 Maven is the chosen build tool for the server. 
 
 Once installed, use `mvn clean install` in the `server` directory to install all relevant dependencies, run tests,
- and build the `.jar` file.
+ and build the `.jar` file in the `target` directory.
 
-In the project directory, you can run:
+In the target directory, you can run:
 
 ## `java -jar ${jarfile_name}`
 
