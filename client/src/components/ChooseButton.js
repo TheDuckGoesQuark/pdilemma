@@ -14,20 +14,21 @@ class ChoiceView extends Component {
     }
 
     handleCooperate() {
-        this.setState({choice:"Cooperate"});
+        this.setState({choice:"C"});
         makeChoice(this.props.gameId, this.props.prisoner.prisonerId, "C")
             .then(() => this.setState({polling: true, choice: "Cooperate"}));
     }
 
     handleBetray() {
-        this.setState({choice:"Betray"});
+        this.setState({choice:"B"});
         makeChoice(this.props.gameId, this.props.prisoner.prisonerId, "B")
             .then(() => this.setState({polling: true, choice: "Betray"}));
     }
 
     handleReply(retVal) {
+        let fullChoiceString = this.state.choice === "C" ? "Cooperate" : "Betray";
         this.props.goBack();
-        this.props.updateResponseText(`You received a reduction to your sentence of ${retVal} years for choosing to ${this.state.choice}`)
+        this.props.updateResponseText(`You received a reduction to your sentence of ${retVal} years for choosing to ${fullChoiceString}`)
     }
 
     handleFailToPoll(reason) {
@@ -36,7 +37,7 @@ class ChoiceView extends Component {
     }
 
     getView() {
-        if (this.state.polling) {
+        if (this.state.polling || this.state.choice !== undefined && this.state.choice !== null) {
             return <PollingIcon
                 handleReply={retVal => this.handleReply(retVal)}
                 handleFailToPoll={reason => this.handleFailToPoll(reason)}
