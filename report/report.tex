@@ -218,6 +218,13 @@ This implementation demonstrates a simple distributed system with a thin-client 
 
 Transparency is achieved for the most part, as there is nothing to suggest to the user that the application is communicating with another machine. If the system was to be properly scaled, there would likely be several servers for serving the client webappp to requesting users that could all be accessed at the same domain (e.g. \url{www.prisonerdilemma.com}). The REST API server could also be duplicated behind a load balancer in order to provide redundancy and allow the service to handle more requests. For this to be done, the in-memory database would have to be swapped out for an external database server as discussed earlier. 
 
+Given more time, I would like to have refactored and tested the client-side code. Having only used React.js briefly in the past, I learned as I built, and so the layout and reusability of components is not optimised. The statistics view was the final component added, and it is the closest to 'good' code structure. By wrapping a 'dumb' stateless component (\url{Results}) that managed the rendering in a 'smart' stateful component (\url{ResultView}), responsibilities were better isolated. To ensure components were supplied with all the functions that they required, the proptypes definitions were also added to both of these classes.
+
+The practical highlighted both the benefits and drawbacks of REST as middleware, was a great oppertunity to learn a new front end technology, and was fun to create.
+
+\pagebreak
+
+\part*{References}
 \bibliographystyle{unsrt}
 \bibliography{mybib}
 
