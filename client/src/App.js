@@ -6,6 +6,7 @@ import ChoiceView from "./components/ChooseButton";
 import JoinGame from "./components/JoinGame";
 import Header from "./components/Header";
 import MainMenu from "./components/MainMenu";
+import ResultView from "./components/Results";
 
 const TITLE_TEXT = "Prisoners Dilemma";
 
@@ -61,6 +62,10 @@ class App extends Component {
                     updateView={(newView) => this.updateView(newView)}
                     updateResponseText={(text) => this.updateResponseText(text)}
                 />;
+            case ResultView:
+                return (<ResultView
+                    updateResponseText={(text) => this.updateResponseText(text)}
+                />);
             default:
             case MainMenu:
                 return <MainMenu

@@ -146,6 +146,8 @@ In order for the client to join a random game, an optional URL parameter was add
 
 The games kept the same structure, where there would be two prisoners per game. Since REST prohibits the use of any kind of session, the client would have to use a polling mechanism to get their years reduction once providing their choice. Message based middleware avoids this issue. For example, a commonly used publish-subscribe messaging protocol middleware provided by Spring Websockets, called STOMP, would allow the client to subscribe to their prisoners status, and allow the server to push the number of years reduction to the client once they became available. REST on the other hand avoids all the overhead involved in maintaining subscriptions and message brokers. The structure of REST APIs also tends to encourage decoupling from any client application, which is useful if the service is ever to be expanded or used differently.
 
+To ensure that a game would only ever have two prisoners at most, adding a new prisoner to a game had to be wrapped in a transaction. This would ensure that checking a game had less than two prisoners and adding a new prisoner would both happen atomically. If an external database was used, a better approach would be to use a database trigger on insert to check that this constraint was maintained, and handling the error appropriately in the API server. 
+
 Since the prisoner ID is unique for all prisoners across all games, it would be possible to establish a many-to-many relationship between games and prisoners. Since the heirarchial structure was easier to capture in a REST url design, this functionality was not provided. If it was to be used, a HATEOAS architecture would likely be preferred, where \url{/prisoners} would return a prisoner object with the URLs of all games they partake in, and \url{/games} would return a game object with the URLs of all the prisoners taking part in them. This would avoid cycles in the JSON response objects, and provides what is sometimes referred to as the "final level" of REST.
 
 Given more time, integration tests that would test normal and malicious use patterns would also have been implemented. 
@@ -202,6 +204,10 @@ To try and minimise server load, the polling mechanism uses random exponential b
 \end{figure}
 
 \part*{Conclusion}
+
+This implementation demonstrates a simple distributed system with a thin-client and server architecture, using REST as middleware. 
+
+Transparency is achieved for the most part, as there is nothing to suggest to the user that the application is communicating with another machine. If the system was to be properly scaled, there would likely be several servers for serving the client webappp to requesting users that could all be accessed at the same domain (e.g. \url{www.prisonerdilemma.com}). The REST API server could also be duplicated behind a load balancer in order to provide redundancy and allow the service to handle more requests. For this to be done, the in-memory database would have to be swapped out for an external database server as discussed earlier. 
 
 \bibliographystyle{unsrt}
 \bibliography{mybib}

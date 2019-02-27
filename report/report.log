@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.3)  27 FEB 2019 15:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.3)  27 FEB 2019 16:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -715,47 +715,46 @@ unc-tonal-ity needed
 <images/menu.png, id=35, 347.2975pt x 263.98625pt>
 File: images/menu.png Graphic file (type png)
 <use images/menu.png>
-Package pdftex.def Info: images/menu.png  used on input line 161.
+Package pdftex.def Info: images/menu.png  used on input line 163.
 (pdftex.def)             Requested size: 195.0pt x 148.22603pt.
 <images/joingame.png, id=36, 383.4325pt x 398.48875pt>
 File: images/joingame.png Graphic file (type png)
 <use images/joingame.png>
-Package pdftex.def Info: images/joingame.png  used on input line 170.
+Package pdftex.def Info: images/joingame.png  used on input line 172.
 (pdftex.def)             Requested size: 195.0pt x 202.66109pt.
- [5 <./images/menu.png> <./images/joingame.png>]
-<images/makechoice.png, id=42, 691.58376pt x 140.525pt>
+<images/makechoice.png, id=37, 691.58376pt x 140.525pt>
 File: images/makechoice.png Graphic file (type png)
 <use images/makechoice.png>
-Package pdftex.def Info: images/makechoice.png  used on input line 179.
+Package pdftex.def Info: images/makechoice.png  used on input line 181.
 (pdftex.def)             Requested size: 195.0pt x 39.62119pt.
-<images/polling.png, id=43, 308.15125pt x 163.61125pt>
+ [5 <./images/menu.png>]
+<images/polling.png, id=42, 308.15125pt x 163.61125pt>
 File: images/polling.png Graphic file (type png)
 <use images/polling.png>
-Package pdftex.def Info: images/polling.png  used on input line 190.
+Package pdftex.def Info: images/polling.png  used on input line 192.
 (pdftex.def)             Requested size: 195.0pt x 103.53748pt.
-<images/jitter.png, id=44, 534.99875pt x 91.34125pt>
+<images/jitter.png, id=43, 534.99875pt x 91.34125pt>
 File: images/jitter.png Graphic file (type png)
 <use images/jitter.png>
-Package pdftex.def Info: images/jitter.png  used on input line 199.
+Package pdftex.def Info: images/jitter.png  used on input line 201.
 (pdftex.def)             Requested size: 390.0pt x 66.58795pt.
-
-(./report.bbl [6 <./images/makechoice.png> <./images/polling.png>]) [7 <./image
-s/jitter.png>] (./report.aux) ) 
+ [6 <./images/joingame.png> <./images/makechoice.png>] (./report.bbl) [7 <./ima
+ges/polling.png> <./images/jitter.png>] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 16932 strings out of 494880
- 317196 string characters out of 6179601
+ 16933 strings out of 494880
+ 317208 string characters out of 6179601
  480489 words of memory out of 5000000
- 19919 multiletter control sequences out of 15000+600000
+ 19920 multiletter control sequences out of 15000+600000
  10627 words of font info for 38 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  62i,8n,96p,988b,419s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti
-12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb
->
-Output written on report.pdf (8 pages, 239593 bytes).
+</usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmtt12.pfb>
+Output written on report.pdf (8 pages, 240691 bytes).
 PDF statistics:
  73 PDF objects out of 1000 (max. 8388607)
  39 compressed objects within 1 object stream

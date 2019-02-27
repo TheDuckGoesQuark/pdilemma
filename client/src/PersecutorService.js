@@ -86,3 +86,13 @@ export async function getYearsReduction(gameId, prisonerId) {
     else return Promise.reject({status: response.status, message: body.message});
 }
 
+export async function getAllGames() {
+    const response = await fetch('/prosecutor/games', {
+        headers: {"Content-Type": "application/json"},
+    });
+
+    const body = await response.json();
+
+    if (response.ok) return body;
+    else return Promise.reject({status: response.status, message: body.message});
+}

@@ -5,6 +5,7 @@ import {addPrisonerToGame, startGame} from "../PersecutorService";
 import ChoiceView from "./ChooseButton";
 import TestButton from "./TestButton";
 import JoinGame from "./JoinGame";
+import ResultView from "./Results";
 
 
 class MainMenu extends Component {
@@ -43,6 +44,15 @@ class MainMenu extends Component {
                             fullWidth
                             onClick={() => this.startNewGame()}>
                         Start Game
+                    </Button>
+                </Grid>
+                <Grid item xs>
+                    <Button variant="contained"
+                            color="primary"
+                            size="large"
+                            fullWidth
+                            onClick={() => this.handleChoice(ResultView)}>
+                        View Statistics
                     </Button>
                 </Grid>
             </Grid>
