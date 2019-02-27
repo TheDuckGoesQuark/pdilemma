@@ -3,9 +3,16 @@
 \bibitem{springinit}
 Pivotal~Web Services.
 \newblock Spring initializr.
+\newblock \url{start.spring.io}.
 
 \bibitem{createreactapp}
 Facebook.
 \newblock create-react-app.
+\newblock \url{github.com/facebook/create-react-app}.
+
+\bibitem{canvasjs}
+fenopix.
+\newblock Canvasjs.
+\newblock \url{canvasjs.com}.
 
 \end{thebibliography}

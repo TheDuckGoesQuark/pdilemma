@@ -3,6 +3,7 @@ import {getAllGames} from "../PersecutorService";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import CanvasJSReact from '../canvasjs.react';
+import Button from "@material-ui/core/Button";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -29,6 +30,7 @@ class ResultView extends Component {
     static countChoices(games) {
         let cFreq = {label: "C", y: 0};
         let bFreq = {label: "B", y: 0};
+        let waitingFreq = {label: "None", y:0};
 
         for (let i = 0; i < games.length; ++i) {
             let game = games[i];
@@ -41,22 +43,32 @@ class ResultView extends Component {
                     case "B":
                         bFreq.y++;
                         break;
+                    default:
+                        waitingFreq.y++;
+                        break;
                 }
             }
         }
 
-        return [cFreq, bFreq];
+        return [cFreq, bFreq, waitingFreq];
     }
 
     render() {
         return <Grid container>
             <Results frequencies={this.state.results}/>
+            <Grid item xs>
+                <Button
+                    color="secondary"
+                    size="medium"
+                    onClick={() => this.props.goBack()}>Go to Menu</Button>
+            </Grid>
         </Grid>
     }
 }
 
 ResultView.propTypes = {
-    updateResponseText: PropTypes.func
+    updateResponseText: PropTypes.func,
+    goBack: PropTypes.func
 };
 
 class Results extends Component {

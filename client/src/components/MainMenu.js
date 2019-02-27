@@ -48,7 +48,7 @@ class MainMenu extends Component {
                 </Grid>
                 <Grid item xs>
                     <Button variant="contained"
-                            color="primary"
+                            color="tertiary"
                             size="large"
                             fullWidth
                             onClick={() => this.handleChoice(ResultView)}>

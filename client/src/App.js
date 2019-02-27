@@ -65,6 +65,7 @@ class App extends Component {
             case ResultView:
                 return (<ResultView
                     updateResponseText={(text) => this.updateResponseText(text)}
+                    goBack={() => this.updateView(MainMenu)}
                 />);
             default:
             case MainMenu:
