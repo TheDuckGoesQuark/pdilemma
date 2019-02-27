@@ -27,7 +27,7 @@ class ChoiceView extends Component {
 
     handleReply(retVal) {
         this.props.goBack();
-        this.props.updateResponseText(`You received ${retVal} years for choosing to ${this.state.prisoner.choice}`)
+        this.props.updateResponseText(`You received ${retVal} years for choosing to ${this.state.choice}`)
     }
 
     handleFailToPoll(reason) {
@@ -68,9 +68,7 @@ class PollingIcon extends Component {
 
     pollForYearsReduction() {
         return getYearsReduction(this.props.gameId, this.props.prisoner.prisonerId)
-            .then(numYears => {
-                this.props.handleReply(this.state.choice, numYears);
-            })
+            .then(numYears => this.props.handleReply(numYears))
             .catch(reason => {
                 if (reason.status !== httpCodes.preconditionFailed) {
                     this.props.handleFailToPoll(reason)
