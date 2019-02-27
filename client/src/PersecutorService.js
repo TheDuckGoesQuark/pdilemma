@@ -24,10 +24,12 @@ export async function getJoinableGames() {
         method: "GET",
         headers: {"Content-Type": "application/json"},
     });
+
+    if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
+
     const body = await response.json();
 
     if (response.ok) return body;
-    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -36,10 +38,12 @@ export async function getPrisonerFromGame(gameId, prisonerId) {
         method: "GET",
         headers: {"Content-Type": "application/json"},
     });
+
+    if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
+
     const body = await response.json();
 
     if (response.ok) return body;
-    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -48,10 +52,12 @@ export async function addPrisonerToGame(gameId) {
         method: "POST",
         headers: {"Content-Type": "application/json"},
     });
+
+    if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
+
     const body = await response.json();
 
     if (response.ok) return body;
-    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -61,10 +67,11 @@ export async function startGame() {
         headers: {"Content-Type": "application/json"},
     });
 
+    if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
+
     const body = await response.json();
 
     if (response.ok) return body.gameId;
-    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -76,10 +83,11 @@ export async function makeChoice(gameId, prisonerId, choice) {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(choiceObj)
     });
+    if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
+
     const body = await response.json();
 
     if (response.ok) return body;
-    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -88,10 +96,11 @@ export async function getYearsReduction(gameId, prisonerId) {
         headers: {"Content-Type": "application/json"},
     });
 
+    if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
+
     const body = await response.json();
 
     if (response.ok) return body.numYearsReduction;
-    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }
 
@@ -100,9 +109,10 @@ export async function getAllGames() {
         headers: {"Content-Type": "application/json"},
     });
 
+    if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
+
     const body = await response.json();
 
     if (response.ok) return body;
-    else if (response.status === httpCodes.internalServerError) return Promise.reject({status: response.status, message: FAIL_TO_CONNECT});
     else return Promise.reject({status: response.status, message: body.message});
 }

@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Requires npm to run using these commands. 
 
-Once installed, use `npm install` in the project directory to install all relevant dependencies. 
+Once installed, use `npm install` in the `client` directory to install all relevant dependencies. 
 Since create-react-app is fairly large, this may take some time. 
 
 In the project directory, you can then run:
@@ -22,7 +22,7 @@ If the API server is not running, you will probably see the following error in t
 > Proxy error: Could not proxy request /prosecutor/games from localhost:3000 to http://localhost:8080.
 > See https://nodejs.org/api/errors.html#errors_common_system_errors for more information (ECONNREFUSED).
 
-Simply starting the API server will solve this issue.
+Simply starting the API server will solve this issue. Otherwise, a failure message will be shown throughout the application.
 
 ## `npm run build`
 
@@ -36,7 +36,7 @@ Your app is ready to be deployed!
 
 Maven is the chosen build tool for the server. 
 
-Once installed, use `mvn clean install` in the project directory to install all relevant dependencies, run tests,
+Once installed, use `mvn clean install` in the `server` directory to install all relevant dependencies, run tests,
  and build the `.jar` file.
 
 In the project directory, you can run:
