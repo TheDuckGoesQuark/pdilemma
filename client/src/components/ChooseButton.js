@@ -14,40 +14,41 @@ class ChoiceView extends Component {
     }
 
     handleCooperate() {
+        this.setState({choice:"Cooperate"});
         makeChoice(this.props.gameId, this.props.prisoner.prisonerId, "C")
             .then(() => this.setState({polling: true, choice: "Cooperate"}));
     }
 
     handleBetray() {
+        this.setState({choice:"Betray"});
         makeChoice(this.props.gameId, this.props.prisoner.prisonerId, "B")
             .then(() => this.setState({polling: true, choice: "Betray"}));
     }
 
-    handleChoice(choice) {
-        switch (choice) {
-            case "B":
-                this.handleBetray();
-                break;
-            case "C":
-                this.handleCooperate();
-                break;
-        }
+    handleReply(retVal) {
+        this.props.goBack();
+        this.props.updateResponseText(`You received ${retVal} years for choosing to ${this.state.prisoner.choice}`)
+    }
+
+    handleFailToPoll(reason) {
+        this.props.goBack();
+        this.props.updateResponseText(reason.message)
     }
 
     getView() {
         if (this.state.polling) {
             return <PollingIcon
-                handleReturn={retVal=>this.handleReturnValue(retVal)}
+                handleReply={retVal => this.handleReply(retVal)}
+                handleFailToPoll={reason => this.handleFailToPoll(reason)}
+                prisoner={this.props.prisoner}
+                gameId={this.props.gameId}
             />
         } else {
             return <ChoiceButtons
-                handleChoice={choice=>this.handleChoice(choice)}
+                handleCooperate={() => this.handleCooperate()}
+                handleBetray={() => this.handleBetray()}
             />
         }
-    }
-
-    handleReturnValue(retVal) {
-
     }
 
     render() {
@@ -58,7 +59,7 @@ class ChoiceView extends Component {
 class PollingIcon extends Component {
 
     componentDidMount() {
-        this.timer = setInterval(() => this.pollForYearsReduction(), 2)
+        this.timer = setInterval(() => this.pollForYearsReduction(), 2000)
     }
 
     componentWillUnmount() {
@@ -68,12 +69,11 @@ class PollingIcon extends Component {
     pollForYearsReduction() {
         return getYearsReduction(this.props.gameId, this.props.prisoner.prisonerId)
             .then(numYears => {
-                this.props.updateView(this.state.choice, numYears);
-                this.setState({polling: false})
+                this.props.handleReply(this.state.choice, numYears);
             })
             .catch(reason => {
                 if (reason.status !== httpCodes.preconditionFailed) {
-                    this.props.this.setState({polling: false})
+                    this.props.handleFailToPoll(reason)
                 }
             })
     }
@@ -95,7 +95,7 @@ class ChoiceButtons extends Component {
                 <Button variant="contained"
                         color="primary"
                         fullWidth
-                        onClick={() => this.handleCooperate()}>
+                        onClick={() => this.props.handleCooperate()}>
                     Cooperate [C]
                 </Button>
             </Grid>
@@ -105,7 +105,7 @@ class ChoiceButtons extends Component {
                 <Button variant="contained"
                         color="primary"
                         fullWidth
-                        onClick={() => this.handleBetray()}>
+                        onClick={() => this.props.handleBetray()}>
                     Betray [B]
                 </Button>
             </Grid>
